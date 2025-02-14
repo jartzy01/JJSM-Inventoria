@@ -115,7 +115,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         finish();
     }
 
-
+    // Gets the latest user Id and increment by 100
     private void displayId() {
         userDB = FirebaseDatabase.getInstance().getReference("Users");
 

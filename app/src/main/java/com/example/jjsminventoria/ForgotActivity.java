@@ -102,21 +102,26 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
                     return;
                 }
 
-                Users user = new Users(userId,newPassword);
-                userDB.child(String.valueOf(userId)).setValue(user).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Snackbar.make(view, "The User with ID " + userId + " has successfully " +
-                                "changed password", Snackbar.LENGTH_LONG).show();
-                        clearWidgets();
-                        Intent intent = new Intent(ForgotActivity.this,
-                                LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Snackbar.make(view, "Failed to changed password. Please try again.",
-                                Snackbar.LENGTH_LONG).show();
-                    }
-                });
+                Users currentUser = snapshot.getValue(Users.class);
+                if (currentUser != null) {
+                    currentUser.setPassword(newPassword);
+
+                    userDB.child(String.valueOf(userId)).setValue(currentUser).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Snackbar.make(view, "The User with ID " + userId + " has successfully " +
+                                    "changed password. Password: " + currentUser.getPassword(),
+                                    Snackbar.LENGTH_LONG).show();
+                            clearWidgets();
+                            Intent intent = new Intent(ForgotActivity.this,
+                                    LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Snackbar.make(view, "Failed to changed password. Please try again.",
+                                    Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
 
             @Override

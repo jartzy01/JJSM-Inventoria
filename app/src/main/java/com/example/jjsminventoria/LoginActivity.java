@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         String storedPassword = snapshot.child("password").getValue(String.class);
 
                         if (storedPassword != null && storedPassword.equals(password)){
-                            Users user = new Users(userId, password);
+                            Users user = new Users();
 
                             SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME
                                     , MODE_PRIVATE);
