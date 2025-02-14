@@ -7,4 +7,111 @@
     android:layout_height="match_parent"
     tools:context=".ForgotActivity">
 
+    <TextView
+        android:id="@+id/tvFPTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/forgot_password"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvUserId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User ID : "
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFPTitle"/>
+
+    <TextView
+        android:id="@+id/tvFPNewPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Password : "
+        style="@style/TextView_Style"
+        android:layout_marginTop="30dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/tvUserId"
+        app:layout_constraintTop_toBottomOf="@+id/tvUserId"/>
+
+    <TextView
+        android:id="@+id/tvFPPasswordConf"
+        style="@style/TextView_Style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Confirm Password : "
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/tvUserId"
+        app:layout_constraintTop_toBottomOf="@+id/tvFPNewPassword"/>
+
+    <EditText
+        android:id="@+id/etFPUserId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="User ID"
+        android:textStyle="bold"
+        android:inputType="number"
+        style="@style/EditText_Style"
+        app:layout_constraintStart_toStartOf="@+id/tvUserId"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tvUserId"/>
+
+    <EditText
+        android:id="@+id/etFPNewPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="New Password"
+        style="@style/EditText_Style"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@id/tvFPNewPassword"
+        app:layout_constraintTop_toTopOf="@+id/tvFPNewPassword"/>
+
+    <EditText
+        android:id="@+id/etFPConfirmPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Confirm Password"
+        style="@style/EditText_Style"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/tvFPPasswordConf"
+        app:layout_constraintBottom_toBottomOf="@+id/tvFPPasswordConf"/>
+
+    <Button
+        android:id="@+id/btnFPConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CHANGE PASSWORD"
+        style="@style/Button_Style"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFPPasswordConf"/>
+
+    <Button
+        android:id="@+id/btnFPReturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RETURN"
+        style="@style/Button_Style"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnFPConfirm"/>
+    <Button
+        android:id="@+id/btnFPFindUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FIND USER"
+        style="@style/Button_Style"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/btnFPReturn"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
