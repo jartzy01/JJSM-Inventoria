@@ -4,7 +4,6 @@ import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.service.autofill.UserData;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
