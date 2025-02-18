@@ -36,10 +36,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String KEY_USER_ID = "userId";
     private static final String KEY_LAST_ACTIVITY = "lastActivity";
 
-    private Button btnLogin, btnCreateAccount;
+    private Button btnLogin;
     private EditText etUserId, etPassword;
     private CheckBox cbHide;
-    private TextView tvForgotPassword;
+    private TextView tvForgotPassword, tvSignUp;
 
     private DatabaseReference userDb;
 
@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
 
         btnLogin = findViewById(R.id.btnLogin);
-        btnCreateAccount = findViewById(R.id.btnCreateAccount);
+        tvSignUp = findViewById(R.id.tvSignUp);
 
         etPassword = findViewById(R.id.etPassword);
         etUserId = findViewById(R.id.etUserId);
@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         cbHide = findViewById(R.id.cbHide);
 
         btnLogin.setOnClickListener(this);
-        btnCreateAccount.setOnClickListener(this);
+        tvSignUp.setOnClickListener(this);
         tvForgotPassword.setOnClickListener(this);
         cbHide.setOnCheckedChangeListener(((buttonView, isChecked) -> showPassword(isChecked)));
 
@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int id = v.getId();
 
         if (id == R.id.btnLogin) login(v);
-        if (id == R.id.btnCreateAccount) createAccount(v);
+        if (id == R.id.tvSignUp) createAccount(v);
         if (id == R.id.tvForgotPassword) forgotPassword(v);
     }
 

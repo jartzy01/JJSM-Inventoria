@@ -14,10 +14,46 @@
         android:text="Login"
         android:textSize="22sp"
         android:textStyle="bold"
+        android:textColor="@color/yellow"
         android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/yellow"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCALabelSignUp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCALabelSignUp"/>
+
+    <TextView
+        android:id="@+id/tvCALabelSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/don_t_have_an_account"
+        android:textSize="15sp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginStart="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tvForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgot password?"
+        android:textSize="15sp"
+        android:textColor="@color/yellow"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="@+id/cbHide"
+        app:layout_constraintTop_toBottomOf="@+id/cbHide"/>
 
     <EditText
         android:id="@+id/etUserId"
@@ -27,7 +63,6 @@
         android:hint="User Id"
         android:textStyle="bold"
         android:textSize="15sp"
-        android:textAlignment="center"
         android:layout_marginTop="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +76,6 @@
         android:hint="Password"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:textAlignment="center"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,18 +93,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPassword"/>
 
-    <TextView
-        android:id="@+id/tvForgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Forgot password?"
-        android:textStyle="bold"
-        android:textSize="10sp"
-        android:textColor="@color/blue"
-        android:layout_marginTop="50dp"
-        app:layout_constraintStart_toStartOf="@+id/cbHide"
-        app:layout_constraintTop_toBottomOf="@+id/cbHide"/>
-
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
@@ -82,14 +104,5 @@
         app:layout_constraintEnd_toEndOf="@+id/etPassword"
         app:layout_constraintBottom_toBottomOf="@+id/cbHide"/>
 
-    <Button
-        android:id="@+id/btnCreateAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign in"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/etPassword"
-        app:layout_constraintBottom_toBottomOf="@+id/tvForgotPassword"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
