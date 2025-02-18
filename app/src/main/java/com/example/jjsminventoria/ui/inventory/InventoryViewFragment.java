@@ -10,18 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.jjsminventoria.databinding.FragmentDashboardBinding;
+import com.example.jjsminventoria.databinding.FragmentInventoryBinding;
 
 public class InventoryViewFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentInventoryBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         InventoryViewModel dashboardViewModel =
                 new ViewModelProvider(this).get(InventoryViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentInventoryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textDashboard;
