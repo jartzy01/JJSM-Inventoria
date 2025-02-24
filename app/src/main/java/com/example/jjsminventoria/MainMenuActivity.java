@@ -27,6 +27,7 @@ public class MainMenuActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+// Toolbar is somehow need for the app to work need to take out or can add some styling to it if we gonna keep
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
