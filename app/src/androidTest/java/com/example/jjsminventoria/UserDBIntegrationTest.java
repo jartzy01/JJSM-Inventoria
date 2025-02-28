@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import model.Users;
 
-public class UserDBTest {
+public class UserDBIntegrationTest {
     private DatabaseReference databaseReference;
 
     @Before
