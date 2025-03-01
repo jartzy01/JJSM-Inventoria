@@ -7,4 +7,12 @@
     </string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="title_activity_main_menu_bottom_tabs">MainMenuBottomTabs</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_inventory">Inventory</string>
+    <string name="title_profile">Profile</string>
+    <string name="signup_text">Don’t have an account? <font color='#FFA500'>Sign up</font></string>
+
 </resources>

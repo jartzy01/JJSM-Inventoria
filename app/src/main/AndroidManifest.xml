@@ -15,8 +15,7 @@
         <activity
             android:name=".MainMenuActivity"
             android:exported="false"
-            android:label="@string/title_activity_main_menu"
-            android:theme="@style/Theme.JJSMInventoria.NoActionBar" />
+            android:label="@string/title_activity_main_menu_bottom_tabs" />
         <activity
             android:name=".ForgotActivity"
             android:exported="false" />
@@ -25,7 +24,8 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
