@@ -21,11 +21,13 @@
 | Red            | `#EC5D60` | ![#EC5D60](https://placehold.co/20x20/EC5D60/EC5D60.png) |
 | Green          | `#58CB86` | ![#58CB86](https://placehold.co/20x20/58CB86/58CB86.png) |
 
-Specific Element Colors (Global) :
+## Specific Element Colors (Global)
 
-+ TextBox Background : *#F1F2F5* <span style="background-color:#F1F2F5; color:#F1F2F5; border: 1px solid #ccc;">█████</span>
-+ TextBox Text : *#C2C2C2* <span style="background-color:#C2C2C2; color:#C2C2C2;">█████</span>
-+ Selected Nav Tab BG : *#D8DDEB* <span style="background-color:#D8DDEB; color:#D8DDEB; border: 1px solid #ccc;">█████</span>
+| Element                  | Hex Code  | Preview |
+|--------------------------|----------|---------|
+| TextBox Background      | `#F1F2F5` | ![#F1F2F5](https://placehold.co/20x20/F1F2F5/F1F2F5.png) |
+| TextBox Text            | `#C2C2C2` | ![#C2C2C2](https://placehold.co/20x20/C2C2C2/C2C2C2.png) |
+| Selected Nav Tab BG     | `#D8DDEB` | ![#D8DDEB](https://placehold.co/20x20/D8DDEB/D8DDEB.png) |
 
 ## Sign Up Page
 
@@ -33,7 +35,7 @@ Textboxes are the same everywhere.
 
 "Password Guidelines" :
 
-+ Color: *#1D2238* <span style="background-color:#1D2238; color:#1D2238;">█████</span>
++ Color: *#1D2238*
 + Opacity: *69%*
 + Font: Roboto, Regular, 12pt
 
@@ -41,33 +43,33 @@ Textboxes are the same everywhere.
 
 History tab Component (Not Selected) :
 
-+ Color (Gray): *#C0C0C0* <span style="background-color:#C0C0C0; color:#C0C0C0;">█████</span>
++ Color (Gray): *#C0C0C0*
 
 Edit Item Component :
 
-+ Background Color: *#D9D9D9* <span style="background-color:#D9D9D9; color:#D9D9D9; border: 1px solid #ccc;">█████</span>
++ Background Color: *#D9D9D9*
 
 Delete Item Component :
 
-+ Background Color: *#EC5D60* <span style="background-color:#EC5D60; color:#EC5D60;">█████</span>
++ Background Color: *#EC5D60*
 
 ## Edit Item Page
 
 TextBox Border Component :
 
-+ Border Color : *#EAEBED* <span style="background-color:#EAEBED; color:#EAEBED; border: 1px solid #ccc;">█████</span>
++ Border Color : *#EAEBED*
 
 ## History Page
 
 Date :
 
-+ Color : *#B6B6B6* <span style="background-color:#B6B6B6; color:#B6B6B6;">█████</span>
++ Color : *#B6B6B6*
 
 ## Profile Page
 
 Address :
 
-+ Color: *#8A8A8C* <span style="background-color:#8A8A8C; color:#8A8A8C;">█████</span>
++ Color: *#8A8A8C*
 
 ## Fonts
 Click the font to get the download link for fonts.
