@@ -35,7 +35,7 @@ Textboxes are the same everywhere.
 
 "Password Guidelines" :
 
-+ Color: *#1D2238*
++ Color: `#1D2238`
 + Opacity: *69%*
 + Font: Roboto, Regular, 12pt
 
@@ -43,33 +43,33 @@ Textboxes are the same everywhere.
 
 History tab Component (Not Selected) :
 
-+ Color (Gray): *#C0C0C0*
++ Color (Gray): `#C0C0C0`
 
 Edit Item Component :
 
-+ Background Color: *#D9D9D9*
++ Background Color: `#D9D9D9`
 
 Delete Item Component :
 
-+ Background Color: *#EC5D60*
++ Background Color: `#EC5D60`
 
 ## Edit Item Page
 
 TextBox Border Component :
 
-+ Border Color : *#EAEBED*
++ Border Color : `#EAEBED`
 
 ## History Page
 
 Date :
 
-+ Color : *#B6B6B6*
++ Color : `#B6B6B6`
 
 ## Profile Page
 
 Address :
 
-+ Color: *#8A8A8C*
++ Color: `#8A8A8C`
 
 ## Fonts
 Click the font to get the download link for fonts.
