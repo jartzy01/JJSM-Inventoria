@@ -11,13 +11,15 @@
 
 ## Color Palette
 
-+ Almost Black : *#1D2238* <span style="background-color:#1D2238; color:#1D2238;">█████</span>
-+ Yellow : *#EDB248* <span style="background-color:#EDB248; color:#EDB248;">█████</span>
-+ White : *#FFFFFF* <span style="background-color:#FFFFFF; border: 1px solid #ccc; color:#FFFFFF;">█████</span>
-+ Light Gray : *#F1F2F5* <span style="background-color:#F1F2F5; color:#F1F2F5;">█████</span>
-+ Dark Gray : *#C2C2C2* <span style="background-color:#C2C2C2; color:#C2C2C2;">█████</span>
-+ Red : *#EC5D60* <span style="background-color:#EC5D60; color:#EC5D60;">█████</span>
-+ Green : *#58CB86* <span style="background-color:#58CB86; color:#58CB86;">█████</span>
+| Color Name       | Hex Code  | Preview |
+|-----------------|----------|---------|
+| Almost Black    | `#1D2238` | ![#1D2238](https://placehold.co/20x20/1D2238/1D2238.png) |
+| Yellow          | `#EDB248` | ![#EDB248](https://placehold.co/20x20/EDB248/EDB248.png) |
+| White          | `#FFFFFF` | ![#FFFFFF](https://placehold.co/20x20/FFFFFF/000000.png) |
+| Light Gray      | `#F1F2F5` | ![#F1F2F5](https://placehold.co/20x20/F1F2F5/F1F2F5.png) |
+| Dark Gray       | `#C2C2C2` | ![#C2C2C2](https://placehold.co/20x20/C2C2C2/C2C2C2.png) |
+| Red            | `#EC5D60` | ![#EC5D60](https://placehold.co/20x20/EC5D60/EC5D60.png) |
+| Green          | `#58CB86` | ![#58CB86](https://placehold.co/20x20/58CB86/58CB86.png) |
 
 Specific Element Colors (Global) :
 
