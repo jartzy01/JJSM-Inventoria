@@ -16,10 +16,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.jjsminventoria.database.Singleton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import model.Users;
@@ -63,7 +63,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         btnCACreateAccount.setOnClickListener(this);
         btnCAReturn.setOnClickListener(this);
 
-        userDB = FirebaseDatabase.getInstance().getReference("Users");
+        userDB = Singleton.getInstance().getUserDb();
 
         displayId();
     }
@@ -117,8 +117,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
     // Gets the latest user Id and increment by 100
     private void displayId() {
-        userDB = FirebaseDatabase.getInstance().getReference("Users");
-
         userDB.orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

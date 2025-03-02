@@ -15,11 +15,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.jjsminventoria.database.Singleton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import model.Users;
@@ -59,7 +59,7 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
         btnFPFindUser.setOnClickListener(this);
         btnFPConfirm.setOnClickListener(this);
 
-        userDB = FirebaseDatabase.getInstance().getReference("Users");
+        userDB = Singleton.getInstance().getUserDb();
     }
 
     @Override

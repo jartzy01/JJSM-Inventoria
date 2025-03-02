@@ -20,11 +20,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.jjsminventoria.database.Singleton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import model.Users;
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tvForgotPassword.setOnClickListener(this);
         cbHide.setOnCheckedChangeListener(((buttonView, isChecked) -> showPassword(isChecked)));
 
-        userDb = FirebaseDatabase.getInstance().getReference("Users");
+        userDb = Singleton.getInstance().getUserDb();
 
         disablePaste(etUserId);
         disablePaste(etPassword);
