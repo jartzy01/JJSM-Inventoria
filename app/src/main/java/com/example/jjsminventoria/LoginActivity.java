@@ -5,13 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,7 +20,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.jjsminventoria.database.Singleton;
+import com.example.jjsminventoria.database.FirebaseConnection;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -76,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tvSignUp.setOnClickListener(this);
         cbHide.setOnCheckedChangeListener(((buttonView, isChecked) -> showPassword(isChecked)));
 
-        userDb = Singleton.getInstance().getUserDb();
+        userDb = FirebaseConnection.getInstance().getUserDb();
         disablePaste(etUserId);
         disablePaste(etPassword);
     }
