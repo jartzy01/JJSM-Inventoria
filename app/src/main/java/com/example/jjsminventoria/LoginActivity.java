@@ -5,11 +5,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String KEY_USER_ID = "userId";
     private static final String KEY_LAST_ACTIVITY = "lastActivity";
 
-    private Button btnLogin;
+    private ImageButton btnLogin;
     private EditText etUserId, etPassword;
     private CheckBox cbHide;
     private TextView tvForgotPassword, tvSignUp;
@@ -67,12 +72,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         cbHide = findViewById(R.id.cbHide);
 
         btnLogin.setOnClickListener(this);
-        tvSignUp.setOnClickListener(this);
         tvForgotPassword.setOnClickListener(this);
+        tvSignUp.setOnClickListener(this);
         cbHide.setOnCheckedChangeListener(((buttonView, isChecked) -> showPassword(isChecked)));
 
         userDb = Singleton.getInstance().getUserDb();
-
         disablePaste(etUserId);
         disablePaste(etPassword);
     }

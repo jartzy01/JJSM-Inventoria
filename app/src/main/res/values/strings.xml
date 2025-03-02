@@ -13,6 +13,11 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_inventory">Inventory</string>
     <string name="title_profile">Profile</string>
-    <string name="signup_text">Don’t have an account? <font color='#FFA500'>Sign up</font></string>
+    <string name="signup_text">Don’t have an account?</string>
+    <string name="login_title">Welcome!</string>
+    <string name="login_hint">Login</string>
+    <string name="user_id_label">user Id</string>
+    <string name="password_hint">password</string>
+    <string name="forgot_password_label">Forgot password?</string>
 
 </resources>
