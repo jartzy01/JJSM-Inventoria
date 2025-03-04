@@ -26,7 +26,7 @@ import model.Users;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tvCAUserId;
-    private EditText etCAPassword, etCAConfirmPassword, etCAName, etCARole, etCAUsername;
+    private EditText etCAPassword, etCAConfirmPassword, etCAName, etCARole, etCAUsername, etCAEmail;
     private Button btnCACreateAccount, btnCAReturn;
 
     DatabaseReference userDB;
@@ -49,16 +49,11 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         etCAPassword = findViewById(R.id.etCAPassword);
         etCAConfirmPassword = findViewById(R.id.etCAConfirmPassword);
         etCAName = findViewById(R.id.etCAName);
+        etCAEmail = findViewById(R.id.etCAEmail);
         etCARole = findViewById(R.id.etCARole);
         etCAUsername = findViewById(R.id.etCAUsername);
         btnCACreateAccount = findViewById(R.id.btnCACreateAccount);
         btnCAReturn = findViewById(R.id.btnCAReturn);
-
-        etCAPassword.setOnClickListener(this);
-        etCAConfirmPassword.setOnClickListener(this);
-        etCAName.setOnClickListener(this);
-        etCAUsername.setOnClickListener(this);
-        etCARole.setOnClickListener(this);
 
         btnCACreateAccount.setOnClickListener(this);
         btnCAReturn.setOnClickListener(this);
@@ -84,29 +79,49 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         String name = etCAName.getText().toString().trim();
         String username = etCAUsername.getText().toString().trim();
         String role = etCARole.getText().toString().trim();
+        String email = etCAEmail.getText().toString().trim();
 
         if (passwordConfirm.equals(password)){
-            Users users = new Users(userId, password, name, username, role);
+            if (isValidPassword(password)) {
+                Toast.makeText(this, "✅ Password respect the constraints",
+                        Toast.LENGTH_SHORT).show();
+                Users users = new Users(userId, password, name, username, role, email);
 
-            userDB.child(String.valueOf(userId)).setValue(users).addOnCompleteListener(userTask ->{
-                if (userTask.isSuccessful()) {
-                    Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show();
+                userDB.child(String.valueOf(userId)).setValue(users).addOnCompleteListener(userTask -> {
+                    if (userTask.isSuccessful()) {
+                        Toast.makeText(this, "✅ Account created successfully", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(this, "Failed to create Users", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(this, "❌ Failed to create Users", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                clearWidget();
+                if (password.length() < 8){
+                    Toast.makeText(this, "❌ Password needs to have at least 8 char.",
+                            Toast.LENGTH_SHORT).show();
+                } if (!password.matches(".*[A-Z].*")) {
+                    Toast.makeText(this, "❌ Password needs to have a minimum of 1 uppercase letter", Toast.LENGTH_SHORT).show();
+                } if (!password.matches(".*[a-z].*")){
+                    Toast.makeText(this, "Password needs to have a minimum of 1 lowercase letter", Toast.LENGTH_SHORT).show();
+                } if (!password.matches(".*\\d*.")) {
+                    Toast.makeText(this, "❌ Password needs to have at least 1 digit",
+                            Toast.LENGTH_LONG).show();
                 }
-            });
+            }
         } else {
-            Toast.makeText(this, "Password is not similar. Password must be similar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "❌ Password is not similar. Password must be similar",
+                    Toast.LENGTH_SHORT).show();
             clearWidget();
         }
+    }
 
-
-
-
+    private boolean isValidPassword(String password){
+        String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,}$";
+        return password.matches(regex);
     }
 
     private void goToLoginActivity() {

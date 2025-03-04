@@ -80,6 +80,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tvCAUsername"/>
 
     <TextView
+        android:id="@+id/tvCAEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email"
+        style="@style/TextView_Style"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/tvCAConfirmPassword"
+        app:layout_constraintTop_toBottomOf="@+id/tvCAName"/>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvCARole"
@@ -89,7 +100,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="@+id/tvCAName"
         app:layout_constraintEnd_toEndOf="@+id/tvCAConfirmPassword"
-        app:layout_constraintTop_toBottomOf="@+id/tvCAName"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvCAEmail"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -144,6 +155,17 @@
         android:inputType="text"
         app:layout_constraintStart_toEndOf="@+id/tvCAName"
         app:layout_constraintBottom_toBottomOf="@+id/tvCAName"/>
+
+    <EditText
+        android:id="@+id/etCAEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        style="@style/EditText_Style"
+        android:inputType="textWebEmailAddress"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCAEmail"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCAEmail"/>
 
     <EditText
         android:layout_width="wrap_content"
