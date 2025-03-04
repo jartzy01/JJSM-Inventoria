@@ -7,7 +7,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Header Section -->
     <LinearLayout
         android:id="@+id/headerContainer"
         android:layout_width="match_parent"
@@ -52,7 +51,6 @@
             android:src="@drawable/bell"/>
     </LinearLayout>
 
-    <!-- Main Content Container -->
     <LinearLayout
         android:id="@+id/mainContentContainer"
         android:layout_width="match_parent"
@@ -73,16 +71,28 @@
             android:orientation="horizontal"
             android:padding="8dp">
 
-            <TextView
-                android:id="@+id/tabCategories"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Categories"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/go_back"/>
+
+                <TextView
+                    android:id="@+id/tabCategories"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Some Category 3"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tabHistory"
@@ -91,7 +101,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="History"
-                android:textColor="@color/dark_gray"
+                android:textStyle="bold"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -122,11 +133,20 @@
                 android:src="@drawable/ic_vector" />
 
             <TextView
-                android:id="@+id/categoryPath"
+                android:id="@+id/mainFilled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Categories /"
+                android:textColor="@color/dark_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/subFielld"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Some Category 3 /"
                 android:textColor="@color/dark_gray"
                 android:textSize="12sp" />
         </LinearLayout>

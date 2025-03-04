@@ -45,8 +45,7 @@
                 android:id="@+id/companyLogo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/rounded_background"
-                android:src="@drawable/ic_person"
+                android:background="@drawable/ic_logo"
                 android:scaleType="fitCenter"/>
 
         </FrameLayout>
@@ -57,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Company Name"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@color/orange"
             android:layout_marginTop="12dp"/>
@@ -70,10 +69,10 @@
             android:text="3100 Boul Griffith, H4Y 8J0, QC"
             android:textSize="14sp"
             android:textColor="@color/dark_gray"
+            android:textStyle="bold"
             android:layout_marginTop="4dp"/>
     </LinearLayout>
 
-    <!-- Action Buttons (Users & Settings) -->
     <LinearLayout
         android:id="@+id/actionButtons"
         android:layout_width="match_parent"
@@ -85,55 +84,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Users Button -->
-        <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_background"
-            android:gravity="center"
-            android:padding="16dp"
-            android:layout_marginEnd="12dp">
+        <FrameLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="20dp">
+
 
             <ImageView
-                android:id="@+id/usersIcon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/users_2"/>
+                android:id="@+id/users"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_users"
+                android:scaleType="fitCenter"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Users"
-                android:textSize="12sp"
-                android:textColor="@color/black"/>
+        </FrameLayout>
 
-
-        </LinearLayout>
-
-        <!-- Settings Button -->
-        <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_background"
-            android:gravity="center"
-            android:padding="16dp">
+        <FrameLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp">
 
             <ImageView
-                android:id="@+id/rectangles"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/settings"/>
+                android:id="@+id/settings"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_settings"
+                android:scaleType="fitCenter"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Settings"
-                android:textSize="12sp"
-                android:textColor="@color/black"/>
+        </FrameLayout>
 
-        </LinearLayout>
     </LinearLayout>
 
     <!-- Bottom Navigation Bar -->
@@ -144,10 +125,14 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:padding="12dp"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/rounded_background_dashboard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="15dp"
+        android:radius="16dp">
+
 
         <!-- Dashboard -->
         <LinearLayout
@@ -158,15 +143,16 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/dashboard_gray"/>
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/dashboard_empty"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dashboard"
                 android:textSize="12sp"
+                android:textStyle="bold"
                 android:textColor="@color/dark_gray"/>
         </LinearLayout>
 
@@ -181,13 +167,14 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/box"/>
+                android:src="@drawable/box_empty" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Inventory"
                 android:textSize="12sp"
+                android:textStyle="bold"
                 android:textColor="@color/dark_gray"/>
         </LinearLayout>
 
@@ -209,8 +196,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Profile"
+                android:textStyle="bold"
                 android:textSize="12sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/dark_gray"/>
         </LinearLayout>
     </LinearLayout>
 
