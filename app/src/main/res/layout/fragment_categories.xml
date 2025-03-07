@@ -52,59 +52,63 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/tabsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/headers"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="185dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:background="@drawable/headers_items_selected">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/go_back"
+                android:layout_marginTop="3dp"
+                android:layout_marginStart="10dp"/>
+
+            <TextView
+                android:id="@+id/tabCategories"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Some Category 3"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tabHistory"
+            android:layout_width="0dp"
+            android:background="@drawable/headers_items_unselected"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="History"
+            android:textColor="@color/dark_gray"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/mainContentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
 
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/rounded_background_right_corner"
         android:orientation="vertical"
         android:padding="20dp">
 
         <!-- Tabs (Categories & History) -->
-        <LinearLayout
-            android:id="@+id/tabsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_edittext"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="8dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/go_back"/>
-
-                <TextView
-                    android:id="@+id/tabCategories"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Some Category 3"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-
-            <TextView
-                android:id="@+id/tabHistory"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="History"
-                android:textColor="@color/dark_gray"
-                android:textSize="16sp" />
-        </LinearLayout>
 
         <!-- Search Bar -->
         <EditText

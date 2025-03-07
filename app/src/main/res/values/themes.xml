@@ -13,6 +13,7 @@
         <item name="android:layout_marginStart">10dp</item>
         <item name="android:layout_marginTop">10dp</item>
     </style>
+
     <style name="EditText_Style">
         <item name="android:layout_marginStart">10dp</item>
         <item name="android:background">@null</item>
@@ -20,6 +21,7 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="Button_Style">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
