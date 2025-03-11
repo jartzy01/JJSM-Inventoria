@@ -26,7 +26,7 @@ import model.Users;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tvCAUserId;
-    private EditText etCAPassword, etCAConfirmPassword, etCAName, etCARole, etCAUsername, etCAEmail;
+    private EditText ,etCAPassword, etCAConfirm, etCAName, etCARole, etCAUsername, etCAEmail;
     private Button btnCACreateAccount, btnCAReturn;
 
     DatabaseReference userDB;

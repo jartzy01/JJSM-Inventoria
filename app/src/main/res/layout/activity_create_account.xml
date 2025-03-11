@@ -1,203 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white"
     tools:context=".CreateAccountActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvTitleCreateAccount"
-        android:text="Create Account"
-        android:textStyle="bold"
-        android:textSize="40sp"
-        android:textColor="@color/yellow"
-        android:layout_marginTop="50dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvCAUserIdLabel"
-        android:text="User Id : "
-        style="@style/TextView_Style"
-        android:layout_marginTop="80dp"
-        android:layout_marginStart="124dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tvCAConfirmPassword"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleCreateAccount"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="24dp"
+            android:gravity="center_horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvCAPassword"
-        android:text="Password : "
-        style="@style/TextView_Style"
-        android:layout_marginStart="99dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tvCAConfirmPassword"
-        app:layout_constraintTop_toBottomOf="@+id/tvCAUserIdLabel"/>
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_logo_normal"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvCAConfirmPassword"
-        android:text="Confirm Password : "
-        style="@style/TextView_Style"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tvCAName"
-        app:layout_constraintTop_toBottomOf="@+id/tvCAPassword"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Create Account"
+                android:textColor="@color/orange"
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvCAUsername"
-        android:text="Username : "
-        style="@style/TextView_Style"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCAConfirmPassword"/>
+        </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvCAName"
-        android:text="@string/first_last_name"
-        style="@style/TextView_Style"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tvCAConfirmPassword"
-        app:layout_constraintTop_toBottomOf="@+id/tvCAUsername"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Personal Information"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="24dp"/>
 
-    <TextView
-        android:id="@+id/tvCAEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/email"
-        style="@style/TextView_Style"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/tvCAConfirmPassword"
-        app:layout_constraintTop_toBottomOf="@+id/tvCAName"/>
+        <EditText
+            android:id="@+id/etCAFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:textSize="13sp"
+            android:background="@drawable/rounded_edittext"
+            android:hint="First name"
+            android:padding="12dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvCARole"
-        android:text="Role : "
-        style="@style/TextView_Style"
-        android:layout_marginStart="116dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="@+id/tvCAName"
-        app:layout_constraintEnd_toEndOf="@+id/tvCAConfirmPassword"
-        app:layout_constraintTop_toBottomOf="@+id/tvCAEmail"/>
+        <EditText
+            android:id="@+id/etCALastName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:textSize="13sp"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Last name"
+            android:padding="12dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvCAUserId"
-        android:hint="User Id"
-        style="@style/TextView_Style"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@+id/tvCAUserIdLabel"
-        app:layout_constraintBottom_toBottomOf="@+id/tvCAUserIdLabel"/>
+        <EditText
+            android:id="@+id/etCAEmail"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:textSize="13sp"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etCAPassword"
-        android:hint="Password"
-        style="@style/EditText_Style"
-        android:inputType="textPassword"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@+id/tvCAPassword"
-        app:layout_constraintBottom_toBottomOf="@+id/tvCAPassword"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Company Information"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etCAConfirmPassword"
-        android:hint="Confirm Password"
-        style="@style/EditText_Style"
-        android:layout_marginStart="10dp"
-        android:inputType="textPassword"
-        app:layout_constraintStart_toEndOf="@+id/tvCAConfirmPassword"
-        app:layout_constraintBottom_toBottomOf="@+id/tvCAConfirmPassword"/>
+        <EditText
+            android:id="@+id/etCACompanyName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:textSize="13sp"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Company name"
+            android:padding="12dp"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etCAUsername"
-        android:hint="Username"
-        style="@style/EditText_Style"
-        android:layout_marginStart="10dp"
-        android:inputType="text"
-        app:layout_constraintStart_toEndOf="@+id/tvCAUsername"
-        app:layout_constraintBottom_toBottomOf="@+id/tvCAUsername"/>
+        <EditText
+            android:id="@+id/etCAAddress"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:textSize="13sp"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Address"
+            android:padding="12dp"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etCAName"
-        android:hint="Name"
-        style="@style/EditText_Style"
-        android:layout_marginStart="10dp"
-        android:inputType="text"
-        app:layout_constraintStart_toEndOf="@+id/tvCAName"
-        app:layout_constraintBottom_toBottomOf="@+id/tvCAName"/>
+        <EditText
+            android:id="@+id/etCACountry"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:textSize="13sp"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Country"
+            android:padding="12dp"/>
 
-    <EditText
-        android:id="@+id/etCAEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        style="@style/EditText_Style"
-        android:inputType="textWebEmailAddress"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@+id/tvCAEmail"
-        app:layout_constraintBottom_toBottomOf="@+id/tvCAEmail"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Create a Password"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etCARole"
-        android:hint="Role"
-        style="@style/EditText_Style"
-        android:layout_marginStart="10dp"
-        android:inputType="text"
-        app:layout_constraintStart_toEndOf="@+id/tvCARole"
-        app:layout_constraintBottom_toBottomOf="@+id/tvCARole"/>
+        <EditText
+            android:id="@+id/etCAPassword"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:textSize="13sp"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Create a password"
+            android:inputType="textPassword"
+            android:padding="12dp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnCACreateAccount"
-        android:text="Create Account"
-        style="@style/Button_Style"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCARole"/>
+        <EditText
+            android:id="@+id/etCAConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:textSize="13sp"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Re-type password"
+            android:inputType="textPassword"
+            android:padding="12dp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnCAReturn"
-        android:text="Return"
-        style="@style/Button_Style"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCACreateAccount"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="13sp"
+            android:text="Password Guidelines:"
+            android:textStyle="bold"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="✔ At least 8 characters long\n✔ Contains at least one uppercase letter (A-Z)\n✔ Contains at least one lowercase letter (a-z)\n✔ Includes at least one number (0-9)"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="4dp"/>
+
+        <ImageButton
+            android:id="@+id/signupButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_icon"/>
+
+    </LinearLayout>
+</ScrollView>
