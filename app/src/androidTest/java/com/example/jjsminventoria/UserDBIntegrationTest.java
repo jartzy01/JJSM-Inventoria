@@ -33,7 +33,7 @@ public class UserDBIntegrationTest {
 
     @Test
     public void testWriteAndReadData() throws InterruptedException {
-        Users testUser = new Users(100,"kiwis","John Doe", "johndoe@gmail.com");
+        Users testUser = new Users(100,"kiwis","John", "Doe", "johndoe@gmail.com");
         CountDownLatch latch = new CountDownLatch(1);
 
         String userIdKey = "100";
@@ -45,7 +45,8 @@ public class UserDBIntegrationTest {
                    Users retrievedUser = snapshot.getValue(Users.class);
                    assertNotNull(retrievedUser);
                    assertEquals(100, retrievedUser.getId());
-                   assertEquals("John Doe", retrievedUser.getName());
+                   assertEquals("John", retrievedUser.getFirstName());
+                   assertEquals("Doe", retrievedUser.getLastName());
 //                   assertEquals("Employee", retrievedUser.getRole());
                    latch.countDown();
                }
@@ -73,8 +74,8 @@ public class UserDBIntegrationTest {
                     Users retrievedUser = snapshot.getValue(Users.class);
                     assertNotNull("User should not be null", retrievedUser);
                     assertEquals("User Id should match", testUserId, retrievedUser.getId());
-                    assertEquals("User Name should match", "John Doe", retrievedUser.getName());
-//                    assertEquals("Username should match", "TestUser", retrievedUser.getUsername());
+                    assertEquals("User First Name should match", "John", retrievedUser.getFirstName());
+                    assertEquals("User Laset name should match", "Doe", retrievedUser.getLastName());
                     assertEquals("User role should match", "Employee", retrievedUser.getRole());
                 } else {
                     fail("User with ID " + testUserId + " does not exist");
