@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.jjsminventoria" />
+                  <option name="mobileSdkAppId" value="1:174472314640:android:37296dc32dee6dd9416f95" />
+                  <option name="projectId" value="jjsm-information-system-final" />
+                  <option name="projectNumber" value="174472314640" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -4,20 +4,21 @@ public class Users {
     private int id;
     private String name;
     private String password;
-    private String username;
     private String role;
     private String email;
+
+    private String companyName;
+    private String companyAddress;
+    private String companyCountry;
 
     public Users(){
 
     }
 
-    public Users(int id, String password, String name, String username, String role, String email){
+    public Users(int id, String password, String name, String email){
         this.id = id;
         this.password = password;
         this.name = name;
-        this.username = username;
-        this.role = role;
         this.email = email;
     }
 
@@ -43,14 +44,6 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getRole() {

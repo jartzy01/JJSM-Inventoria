@@ -78,14 +78,14 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         int userId = Integer.parseInt(tvCAUserId.getText().toString().trim());
         String name = etCAName.getText().toString().trim();
         String username = etCAUsername.getText().toString().trim();
-        String role = etCARole.getText().toString().trim();
+//        String role = etCARole.getText().toString().trim();
         String email = etCAEmail.getText().toString().trim();
 
         if (passwordConfirm.equals(password)){
             if (isValidPassword(password)) {
                 Toast.makeText(this, "✅ Password respect the constraints",
                         Toast.LENGTH_SHORT).show();
-                Users users = new Users(userId, password, name, username, role, email);
+                Users users = new Users(userId, password, name, email);
 
                 userDB.child(String.valueOf(userId)).setValue(users).addOnCompleteListener(userTask -> {
                     if (userTask.isSuccessful()) {
