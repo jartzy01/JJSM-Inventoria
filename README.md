@@ -9,6 +9,8 @@ This is an **Android Java application** designed as an **e-commerce platform** w
 
 ### General Features
 - Firebase integration for real-time database and authentication.
+- Firebase Authenitcation (Password/email or Google)
+- Firebase Storage
 - Product search by **name**, **ID**, and **description**.
 - Secure login system using Firebase Authentication.
 - **Guest Mode** for users to view products without logging in.
