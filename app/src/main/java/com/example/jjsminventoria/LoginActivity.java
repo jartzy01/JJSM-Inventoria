@@ -178,7 +178,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void loginGoogle(GoogleSignInAccount account) {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
@@ -224,6 +223,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         finish();
     }
 
+
+    // Old Login Code Using Firebase RealTime Database
 //    private void login(View v){
 //        try {
 //            int userId = Integer.parseInt(etUserId.getText().toString());
@@ -288,6 +289,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         finish();
     }
 
+    //loading screen when login is done if needed in the future
 //    private void showLoading(boolean show){
 //        ProgressBar progressBar = findViewById(R.id.progressBar);
 //        if (show) {
