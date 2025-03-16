@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.jjsminventoria" />
-                  <option name="mobileSdkAppId" value="1:174472314640:android:37296dc32dee6dd9416f95" />
-                  <option name="projectId" value="jjsm-information-system-final" />
-                  <option name="projectNumber" value="174472314640" />
+                  <option name="mobileSdkAppId" value="1:971585166326:android:c52d6ab6b67ec56e7ac5d7" />
+                  <option name="projectId" value="inventoria-90e78" />
+                  <option name="projectNumber" value="971585166326" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

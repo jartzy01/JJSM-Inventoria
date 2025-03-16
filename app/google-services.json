@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "971585166326",
+    "firebase_url": "https://inventoria-90e78-default-rtdb.firebaseio.com",
+    "project_id": "inventoria-90e78",
+    "storage_bucket": "inventoria-90e78.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:971585166326:android:c52d6ab6b67ec56e7ac5d7",
+        "android_client_info": {
+          "package_name": "com.example.jjsminventoria"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "971585166326-m67jkt2mj4jsbmbf9og5ffcbou5a250i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jjsminventoria",
+            "certificate_hash": "a81343a35e6ccd534673de27d9a58902a242ba8f"
+          }
+        },
+        {
+          "client_id": "971585166326-m1pfi6cnhu2o3ops1o8sbqquf28ugia2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyIgXcOVuyv7UGam8L-JrLo2dBcMfHWM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "971585166326-m1pfi6cnhu2o3ops1o8sbqquf28ugia2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

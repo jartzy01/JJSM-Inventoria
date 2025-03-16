@@ -36,7 +36,7 @@ public class LoginActivityUITest {
 
     @Test
     public void testLoginButtonOpenNextActivity() {
-        onView(withId(R.id.etUserId)).perform(typeText("100"),closeSoftKeyboard());
+        onView(withId(R.id.etEmail)).perform(typeText("100"),closeSoftKeyboard());
 
         onView(withId(R.id.etPassword)).perform(typeText("asdfg"), closeSoftKeyboard());
 
@@ -54,7 +54,7 @@ public class LoginActivityUITest {
 
     @Test
     public void testLoginButtonInvalidUser() {
-        onView(withId(R.id.etUserId)).perform(typeText("123"),closeSoftKeyboard());
+        onView(withId(R.id.etEmail)).perform(typeText("123"),closeSoftKeyboard());
         onView(withId(R.id.etPassword)).perform(typeText("123"), closeSoftKeyboard());
         onView(withId(R.id.btnLogin)).perform(click());
     }

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">JJSM Inventoria</string>
+    <string name="client_id">971585166326-m1pfi6cnhu2o3ops1o8sbqquf28ugia2.apps.googleusercontent.com</string>
     <string name="title_activity_main_menu">MainMenuActivity</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="first_last_name">
@@ -17,7 +18,7 @@
     <string name="signup_text">Don’t have an account?</string>
     <string name="login_title">Welcome!</string>
     <string name="login_hint">Login</string>
-    <string name="user_id_label">user Id</string>
+    <string name="email_label">email</string>
     <string name="password_hint">password</string>
     <string name="forgot_password_label">Forgot password?</string>
     <string name="email">Email : </string>

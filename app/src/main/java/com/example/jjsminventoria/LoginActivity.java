@@ -3,44 +3,76 @@ package com.example.jjsminventoria;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.credentials.Credential;
+import android.credentials.CredentialManager;
+import android.credentials.GetCredentialRequest;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.jjsminventoria.database.FirebaseConnection;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-
-import model.Users;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final int RC_SIGN_IN = 9001;
     private static final String PREFS_NAME = "MyAppPrefs";
     private static final String KEY_USER_ID = "userId";
     private static final String KEY_LAST_ACTIVITY = "lastActivity";
 
+    private SignInButton btnGoogleSignIn;
     private ImageButton btnLogin;
-    private EditText etUserId, etPassword;
+    private EditText etEmail, etPassword;
     private CheckBox cbHide;
     private TextView tvForgotPassword, tvSignUp;
 
-    private DatabaseReference userDb;
+    //private DatabaseReference userDb;
+    private FirebaseAuth auth;
+    private GoogleSignInClient googleSingInClient;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                loginGoogle(account);
+            } catch (ApiException e) {
+                Snackbar.make(findViewById(android.R.id.content), "Google Sign-In Failed",
+                        Snackbar.LENGTH_LONG).show();
+                navigateToLoginActivity();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,20 +91,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
 
         btnLogin = findViewById(R.id.btnLogin);
+        btnGoogleSignIn = findViewById(R.id.btnGoogleSignIn);
+
         tvSignUp = findViewById(R.id.tvSignUp);
 
         etPassword = findViewById(R.id.etPassword);
-        etUserId = findViewById(R.id.etUserId);
+        etEmail = findViewById(R.id.etEmail);
 
         cbHide = findViewById(R.id.cbHide);
 
+        btnGoogleSignIn.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
         tvForgotPassword.setOnClickListener(this);
         tvSignUp.setOnClickListener(this);
         cbHide.setOnCheckedChangeListener(((buttonView, isChecked) -> showPassword(isChecked)));
 
-        userDb = FirebaseConnection.getInstance().getUserDb();
-        disablePaste(etUserId);
+        //userDb = FirebaseConnection.getInstance().getUserDb();
+
+        auth = FirebaseConnection.getInstance().getAuth();
+
+        disablePaste(etEmail);
         disablePaste(etPassword);
     }
 
@@ -81,6 +119,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int id = v.getId();
 
         if (id == R.id.btnLogin) login(v);
+        if (id == R.id.btnGoogleSignIn) googleSignIn(v);
         if (id == R.id.tvSignUp) createAccount(v);
         if (id == R.id.tvForgotPassword) forgotPassword(v);
     }
@@ -105,53 +144,133 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void login(View v){
-        try {
-            int userId = Integer.parseInt(etUserId.getText().toString());
-            String password = etPassword.getText().toString();
+    private void login(View v) {
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
 
-            DatabaseReference userRef = userDb.child(String.valueOf(userId));
+        if (email.isEmpty() || password.isEmpty()) {
+            Snackbar.make(v, "Please enter email and password", Snackbar.LENGTH_LONG).show();
+            return;
+        }
 
-            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        String storedPassword = snapshot.child("password").getValue(String.class);
+        if (!isValidEmail(email)) {
+            Snackbar.make(v, "Please enter a valid email address", Snackbar.LENGTH_LONG).show();
+            return;
+        }
 
-                        if (storedPassword != null && storedPassword.equals(password)){
-                            Users user = new Users();
+        //showLoading(true);
 
-                            SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME
-                                    , MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putInt(KEY_USER_ID,userId);
-                            editor.putLong(KEY_LAST_ACTIVITY, System.currentTimeMillis());
-                            editor.apply();
-
-                            Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Snackbar.make(v, "Error. Password Invalid", Snackbar.LENGTH_LONG).show();
-                            Log.d("FirebaseDebug", "Checking User: " + userId);
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    // showLoading(false);
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = auth.getCurrentUser();
+                        if (user != null) {
+                            saveUserSession(user.getUid());
+                            navigateToMainMenu();
                         }
                     } else {
-                        Snackbar.make(v, "Error. User Id not found.", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(v, "Login failed. Check credentials.", Snackbar.LENGTH_LONG).show();
+                        Log.e("AuthError", "Sign-in failed", task.getException());
                     }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(LoginActivity.this, "Database Error: "+ error.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                }
-            });
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Invalid User ID", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
+                });
     }
+
+    private void loginGoogle(GoogleSignInAccount account) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = auth.getCurrentUser();
+                        if (user != null) {
+                            Log.d("GoogleSignIn", "Signed in successfully with Google: " + user.getEmail());
+                            saveUserSession(user.getUid());
+                            navigateToMainMenu();
+                        }
+                    } else {
+                        Snackbar.make(findViewById(android.R.id.content), "Authentication Failed.",
+                                Snackbar.LENGTH_LONG).show();
+                        navigateToLoginActivity();
+                        Log.e("GoogleSignIn", "Authentication failed", task.getException());
+                    }
+                });
+    }
+
+
+    private void googleSignIn(View v) {
+        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.client_id))
+                .requestEmail()
+                .build();
+
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, options);
+
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void saveUserSession(String userId) {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_USER_ID, userId);
+        editor.putLong(KEY_LAST_ACTIVITY, System.currentTimeMillis());
+        editor.apply();
+    }
+
+    private void navigateToMainMenu(){
+        Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+//    private void login(View v){
+//        try {
+//            int userId = Integer.parseInt(etUserId.getText().toString());
+//            String password = etPassword.getText().toString();
+//
+//            DatabaseReference userRef = userDb.child(String.valueOf(userId));
+//
+//            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    if (snapshot.exists()) {
+//                        String storedPassword = snapshot.child("password").getValue(String.class);
+//
+//                        if (storedPassword != null && storedPassword.equals(password)){
+//                            Users user = new Users();
+//
+//                            SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME
+//                                    , MODE_PRIVATE);
+//                            SharedPreferences.Editor editor = sharedPreferences.edit();
+//                            editor.putInt(KEY_USER_ID,userId);
+//                            editor.putLong(KEY_LAST_ACTIVITY, System.currentTimeMillis());
+//                            editor.apply();
+//
+//                            Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+//                            startActivity(intent);
+//                            finish();
+//                        } else {
+//                            Snackbar.make(v, "Error. Password Invalid", Snackbar.LENGTH_LONG).show();
+//                            Log.d("FirebaseDebug", "Checking User: " + userId);
+//                        }
+//                    } else {
+//                        Snackbar.make(v, "Error. User Id not found.", Snackbar.LENGTH_LONG).show();
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//                    Toast.makeText(LoginActivity.this, "Database Error: "+ error.getMessage(),
+//                            Toast.LENGTH_LONG).show();
+//                }
+//            });
+//        } catch (NumberFormatException e) {
+//            Toast.makeText(this, "Invalid User ID", Toast.LENGTH_LONG).show();
+//        } catch (Exception e) {
+//            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+//        }
+//    }
 
     private void forgotPassword(View v) {
         Intent intent = new Intent(LoginActivity.this, ForgotActivity.class);
@@ -161,5 +280,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void createAccount(View v) {
         Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
         startActivity(intent);
+    }
+
+    private void navigateToLoginActivity() {
+        Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+//    private void showLoading(boolean show){
+//        ProgressBar progressBar = findViewById(R.id.progressBar);
+//        if (show) {
+//            progressBar.setVisibility(View.VISIBLE);
+//        } else {
+//            progressBar.setVisibility(View.GONE);
+//        }
+//    }
+
+    private boolean isValidEmail(String email){
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }
