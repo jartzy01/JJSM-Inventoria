@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +27,8 @@ import model.Users;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tvCAUserId;
-    private EditText etCAPassword, etCAConfirmPassword, etCAName, etCARole, etCAUsername, etCAEmail;
-    private Button btnCACreateAccount, btnCAReturn;
+    private EditText etCAFirstName, etCALastName, etCAEmail, etCACompanyName, etCAAddress, etCACountry, etCAPassword, etCAConfirm;
+    private ImageButton btnSignup, btnCAReturn;
 
     DatabaseReference userDB;
 
@@ -45,17 +46,20 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void initialize(){
-        tvCAUserId = findViewById(R.id.tvCAUserId);
         etCAPassword = findViewById(R.id.etCAPassword);
-        etCAConfirmPassword = findViewById(R.id.etCAConfirmPassword);
-        etCAName = findViewById(R.id.etCAName);
+        etCAConfirm = findViewById(R.id.etCAConfirm);
+        etCAFirstName = findViewById(R.id.etCAFirstName);
+        etCALastName = findViewById(R.id.etCALastName);
         etCAEmail = findViewById(R.id.etCAEmail);
-        etCARole = findViewById(R.id.etCARole);
-        etCAUsername = findViewById(R.id.etCAUsername);
-        btnCACreateAccount = findViewById(R.id.btnCACreateAccount);
+
+        etCACompanyName = findViewById(R.id.etCACompanyName);
+        etCAAddress = findViewById(R.id.etCAAddress);
+        etCACountry = findViewById(R.id.etCACountry);
+
+        btnSignup = findViewById(R.id.btnSignup);
         btnCAReturn = findViewById(R.id.btnCAReturn);
 
-        btnCACreateAccount.setOnClickListener(this);
+        btnSignup.setOnClickListener(this);
         btnCAReturn.setOnClickListener(this);
 
         userDB = FirebaseConnection.getInstance().getUserDb();
@@ -69,23 +73,23 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         int id = view.getId();
 
         if (id == R.id.btnCAReturn) goToLoginActivity();
-        if (id == R.id.btnCACreateAccount) createAccount();
+        if (id == R.id.btnSignup) createAccount();
     }
 
     private void createAccount() {
         String password = etCAPassword.getText().toString().trim();
-        String passwordConfirm = etCAConfirmPassword.getText().toString().trim();
+        String passwordConfirm = etCAConfirm.getText().toString().trim();
         int userId = Integer.parseInt(tvCAUserId.getText().toString().trim());
-        String name = etCAName.getText().toString().trim();
-        String username = etCAUsername.getText().toString().trim();
-        String role = etCARole.getText().toString().trim();
+        String firstName = etCAFirstName.getText().toString().trim();
+        String lastName = etCALastName.getText().toString().trim();
+        String role = "employee";
         String email = etCAEmail.getText().toString().trim();
 
         if (passwordConfirm.equals(password)){
             if (isValidPassword(password)) {
                 Toast.makeText(this, "✅ Password respect the constraints",
                         Toast.LENGTH_SHORT).show();
-                Users users = new Users(userId, password, name, username, role, email);
+                Users users = new Users(userId, password, firstName, lastName, email);
 
                 userDB.child(String.valueOf(userId)).setValue(users).addOnCompleteListener(userTask -> {
                     if (userTask.isSuccessful()) {
@@ -155,11 +159,14 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void clearWidget(){
-        etCAName.setText(null);
-        etCAUsername.setText(null);
-        etCARole.setText(null);
-        etCAConfirmPassword.setText(null);
+        etCAFirstName.setText(null);
+        etCALastName.setText(null);
+        etCAEmail.setText(null);
+        etCACompanyName.setText(null);
+        etCAAddress.setText(null);
+        etCACountry.setText(null);
+        etCAConfirm.setText(null);
         etCAPassword.setText(null);
-        etCAPassword.setFocusable(true);
+        etCAFirstName.setFocusable(true);
     }
 }

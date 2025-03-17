@@ -35,6 +35,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="roundedImgView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="Theme.JJSMInventoria.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.JJSMInventoria.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
