@@ -30,6 +30,10 @@ public class FirebaseConnection {
         return instance;
     }
 
+    public void logout() {
+        auth.signOut();
+    }
+
     public DatabaseReference getUserDb() {
         return userDb;
     }
