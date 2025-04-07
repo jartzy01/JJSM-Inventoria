@@ -177,6 +177,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void loginGoogle(GoogleSignInAccount account) {
+        Log.d("GoogleSignIn", "Attempting to Google sign-in ...");
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
@@ -190,8 +191,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     } else {
                         Snackbar.make(findViewById(android.R.id.content), "Authentication Failed.",
                                 Snackbar.LENGTH_LONG).show();
-                        navigateToLoginActivity();
                         Log.e("GoogleSignIn", "Authentication failed", task.getException());
+                        navigateToLoginActivity();
                     }
                 });
     }
@@ -276,11 +277,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void forgotPassword(View v) {
         Intent intent = new Intent(LoginActivity.this, ForgotActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void createAccount(View v) {
         Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void navigateToLoginActivity() {

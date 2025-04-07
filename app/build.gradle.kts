@@ -10,7 +10,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.jjsminventoria"
+        applicationId = "com.example.jjsminventorias"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

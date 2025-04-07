@@ -1,12 +1,15 @@
 package com.example.jjsminventoria;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.jjsminventoria.database.FirebaseConnection;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,10 +23,10 @@ import com.example.jjsminventoria.databinding.ActivityMainMenuBinding;
 
 public class MainMenuActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String PREFS_NAME = "MyAppPrefs";
+
     private ActivityMainMenuBinding binding;
-
     private TextView tvLogout;
-
     public FirebaseConnection firebaseConnection;
 
     @Override
@@ -63,6 +66,12 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
 
     private void logout() {
         FirebaseConnection.getInstance().logout();
+        GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
 
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

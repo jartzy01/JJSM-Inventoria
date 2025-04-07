@@ -16,18 +16,9 @@
             android:name=".Signup_success"
             android:exported="false" />
         <activity
-            android:name=".ForgotPassword"
-            android:exported="false"
-            android:label="@string/title_activity_forgot_password"
-            android:theme="@style/Theme.JJSMInventoria" />
-        <activity
             android:name=".ui.ForgotPassword"
             android:exported="false"
             android:label="@string/title_activity_forgot_password"
-            android:theme="@style/Theme.JJSMInventoria" />
-        <activity
-            android:name=".ForgotPasswordActivity"
-            android:exported="false"
             android:theme="@style/Theme.JJSMInventoria" />
         <activity
             android:name=".MainMenuActivity"
