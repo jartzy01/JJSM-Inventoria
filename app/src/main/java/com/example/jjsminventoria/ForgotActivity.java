@@ -21,11 +21,16 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.jjsminventoria.database.FirebaseConnection;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 import model.Users;
 
@@ -38,6 +43,7 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
     private EditText etFPEmail, etFPPassword, etFPConPassword;
 
     public DatabaseReference userDB;
+    public FirebaseAppCheck firebaseAppCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +147,6 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
 
     private void findUser(View view) {
         try {
-            // Gets Email
             String email = etFPEmail.getText().toString().trim();
 
             if (email.isEmpty()) {
@@ -158,16 +163,39 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
 
             auth.fetchSignInMethodsForEmail(email).addOnCompleteListener(task -> {
                 if (task.isSuccessful() && task.getResult() != null) {
-                    boolean emailExists = !task.getResult().getSignInMethods().isEmpty();
+                    List<String> signInMethods = task.getResult().getSignInMethods();
 
-                    if (emailExists) {
-                        Snackbar.make(view, "Input your new Password", Snackbar.LENGTH_LONG).show();
+                    if (signInMethods != null && !signInMethods.isEmpty()) {
 
-                        tvFPPasswordLabel.setVisibility(View.VISIBLE);
-                        etFPPassword.setVisibility(View.VISIBLE);
-                        etFPConPassword.setVisibility(View.VISIBLE);
-                        btnFPChangePassword.setVisibility(View.VISIBLE);
-                        FirebaseAuth.getInstance().sendPasswordResetEmail(email);
+                        Snackbar.make(view, "SignIn method: " + signInMethods.get(0), Snackbar.LENGTH_LONG).show();
+                        Log.d("SignInMethods", "Found methods: " + signInMethods);
+
+                        if (signInMethods.contains(EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD)) {
+                            // Email/password account found
+                            Snackbar.make(view, "Input your new Password", Snackbar.LENGTH_LONG).show();
+
+                            // Show password reset UI
+                            tvFPPasswordLabel.setVisibility(View.VISIBLE);
+                            etFPPassword.setVisibility(View.VISIBLE);
+                            etFPConPassword.setVisibility(View.VISIBLE);
+                            btnFPChangePassword.setVisibility(View.VISIBLE);
+
+                            // Send reset email
+                            FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                                    .addOnCompleteListener(emailTask -> {
+                                        if (emailTask.isSuccessful()) {
+                                            Log.d("ResetEmail", "Password reset email sent to " + email);
+                                        } else {
+                                            Log.e("ResetEmail", "Failed to send reset email", emailTask.getException());
+                                            Snackbar.make(view, "Failed to send reset email.", Snackbar.LENGTH_LONG).show();
+                                        }
+                                    });
+
+                        } else if (signInMethods.contains(GoogleAuthProvider.GOOGLE_SIGN_IN_METHOD)) {
+                            Snackbar.make(view, "This email is linked to Google. Please sign in using Google.", Snackbar.LENGTH_LONG).show();
+                        } else {
+                            Snackbar.make(view, "This email is linked to a third-party provider.", Snackbar.LENGTH_LONG).show();
+                        }
                     } else {
                         Snackbar.make(view, "Email does not exist", Snackbar.LENGTH_LONG).show();
                     }

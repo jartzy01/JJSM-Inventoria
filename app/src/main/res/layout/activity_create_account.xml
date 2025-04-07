@@ -62,6 +62,7 @@
             android:textSize="13sp"
             android:background="@drawable/rounded_edittext"
             android:hint="First name"
+            android:inputType="text"
             android:padding="12dp"/>
 
         <EditText
@@ -72,6 +73,7 @@
             android:textSize="13sp"
             android:background="@drawable/rounded_edittext"
             android:hint="Last name"
+            android:inputType="text"
             android:padding="12dp"/>
 
         <EditText
@@ -102,6 +104,7 @@
             android:textSize="13sp"
             android:background="@drawable/rounded_edittext"
             android:hint="Company name"
+            android:inputType="text"
             android:padding="12dp"/>
 
         <EditText
@@ -112,6 +115,7 @@
             android:textSize="13sp"
             android:background="@drawable/rounded_edittext"
             android:hint="Address"
+            android:inputType="text"
             android:padding="12dp"/>
 
         <EditText
@@ -122,6 +126,7 @@
             android:textSize="13sp"
             android:background="@drawable/rounded_edittext"
             android:hint="Country"
+            android:inputType="text"
             android:padding="12dp"/>
 
         <TextView

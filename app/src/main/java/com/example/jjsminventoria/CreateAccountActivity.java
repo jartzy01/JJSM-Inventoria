@@ -18,7 +18,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.jjsminventoria.database.FirebaseConnection;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -125,10 +127,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                    userDb.child(userId).setValue(users).addOnCompleteListener(dbTask -> {
                       if (dbTask.isSuccessful()) {
                           Toast.makeText(this, "✅ Account created successfully", Toast.LENGTH_SHORT).show();
-                          Intent intent = new Intent(CreateAccountActivity.this,
-                                  LoginActivity.class);
-                          startActivity(intent);
-                          finish();
+                          goToSuccessActivity();
                       } else {
                           Toast.makeText(this, "❌ Failed to store user data.", Toast.LENGTH_SHORT).show();
                       }
@@ -136,6 +135,13 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                } else {
                    Toast.makeText(this,
                            "❌ Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+               }
+           } else {
+               Exception e = task.getException();
+               if (e instanceof FirebaseAuthUserCollisionException) {
+                   Toast.makeText(this, "❌ This email is already registered.", Toast.LENGTH_SHORT).show();
+               } else {
+                   Toast.makeText(this, "❌ Authentication failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                }
            }
         });
@@ -181,6 +187,12 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     private boolean isValidPassword(String password){
         String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,}$";
         return password.matches(regex);
+    }
+
+    private void goToSuccessActivity() {
+        Intent intent = new Intent(CreateAccountActivity.this, Signup_success.class);
+        startActivity(intent);
+        finish();
     }
 
     private void goToLoginActivity() {

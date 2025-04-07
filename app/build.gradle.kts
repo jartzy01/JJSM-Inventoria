@@ -47,6 +47,8 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
+    implementation(libs.firebase.appcheck)
+    implementation(libs.firebase.appcheck.playintegrity)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.espresso.intents)
