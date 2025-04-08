@@ -162,7 +162,6 @@
             android:layout_marginVertical="8dp"
             android:background="@color/light_gray" />
 
-        <!-- Add Category Button -->
         <Button
             android:id="@+id/addCategoryButton"
             android:layout_width="match_parent"
@@ -189,9 +188,7 @@
 
 
 
-
     </LinearLayout>
 
-    <!-- Bottom Navigation Bar -->
 
 </LinearLayout>
