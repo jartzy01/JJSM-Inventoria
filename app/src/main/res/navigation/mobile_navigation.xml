@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.jjsminventoria.ui.inventory.InventoryViewFragment"
+        android:name="com.example.jjsminventoria.ui.inventory.InventoryHomeViewFragment"
         android:label="@string/title_inventory"
-        tools:layout="@layout/fragment_inventory" />
+        tools:layout="@layout/fragment_inventory_home" />
 
     <fragment
         android:id="@+id/navigation_notifications"
