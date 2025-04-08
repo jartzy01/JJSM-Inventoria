@@ -17,9 +17,12 @@ public class FirebaseConnection {
     private final StorageReference storageRef;
     private final FirebaseAuth auth;
     private final FirebaseAppCheck firebaseAppCheck;
+    private final DatabaseReference categoryDb; // Add this line
+
 
     private FirebaseConnection() {
         userDb = FirebaseDatabase.getInstance().getReference("Users");
+        categoryDb = FirebaseDatabase.getInstance().getReference("Categories"); // Add this line
         storageRef = FirebaseStorage.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
         firebaseAppCheck = FirebaseAppCheck.getInstance();
@@ -36,6 +39,10 @@ public class FirebaseConnection {
             }
         }
         return instance;
+    }
+
+    public DatabaseReference getCategoryDb() {
+        return categoryDb;
     }
 
     public void logout() {
