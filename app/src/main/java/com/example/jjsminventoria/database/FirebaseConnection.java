@@ -22,11 +22,14 @@ public class FirebaseConnection {
     private final StorageReference storageRef;
     private final FirebaseAuth auth;
     private final FirebaseAppCheck firebaseAppCheck;
+    private final DatabaseReference itemDb;
+
 
     private FirebaseConnection() {
         userDb = FirebaseDatabase.getInstance().getReference("Users");
         categoryDb = FirebaseDatabase.getInstance().getReference("Categories");
         historyDb = FirebaseDatabase.getInstance().getReference("History");
+        itemDb = FirebaseDatabase.getInstance().getReference("Items");
         storageRef = FirebaseStorage.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
         firebaseAppCheck = FirebaseAppCheck.getInstance();
@@ -60,6 +63,10 @@ public class FirebaseConnection {
         return storageRef;
     }
 
+    public DatabaseReference getItemDb() {
+        return itemDb;
+    }
+
     public FirebaseAuth getAuth() {
         return auth;
     }
@@ -67,6 +74,7 @@ public class FirebaseConnection {
     public void logout() {
         auth.signOut();
     }
+
 
     public void logHistory(String actionType, String message) {
         String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : "unknown";
