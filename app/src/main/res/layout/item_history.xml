@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@android:color/white">
+
+    <!-- Action Message -->
+    <TextView
+        android:id="@+id/historyMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You created a category called X"
+        android:textColor="#212121"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Timestamp -->
+    <TextView
+        android:id="@+id/historyTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2025-04-08 10:30:00"
+        android:textColor="#757575"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp" />
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/light_gray" />
+</LinearLayout>

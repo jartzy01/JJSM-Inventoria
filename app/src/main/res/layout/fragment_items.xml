@@ -7,9 +7,8 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-
     <LinearLayout
-        android:id="@+id/headerContainer"
+        android:id="@+id/itemsHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -40,7 +39,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Administrator"
+                android:text="Items"
                 android:textColor="@color/dark_gray"
                 android:textSize="15sp"
                 android:textStyle="bold"/>
@@ -53,143 +52,70 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tabsContainer"
+        android:id="@+id/itemsTabs"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@drawable/headers"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="185dp"
+        <!-- Selected Tab: Items -->
+        <TextView
+            android:id="@+id/itemsTab"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:background="@drawable/headers_items_selected">
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Items"
+            android:background="@drawable/headers_items_selected"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-<!--            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/go_back"
-                android:layout_marginTop="3dp"
-                android:layout_marginStart="10dp"/>-->
-
-            <TextView
-                android:id="@+id/tabCategories"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Categories"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-
+        <!-- Clickable Tab: History -->
         <TextView
             android:id="@+id/tabHistory"
             android:layout_width="0dp"
-            android:background="@drawable/headers_items_unselected"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="History"
+            android:background="@drawable/headers_items_unselected"
             android:textColor="@color/dark_gray"
             android:textSize="16sp" />
     </LinearLayout>
 
+
     <LinearLayout
-        android:id="@+id/mainContentContainer"
+        android:id="@+id/itemsContentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-
         android:background="@drawable/rounded_background_right_corner"
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- Tabs (Categories & History) -->
-
-        <!-- Search Bar -->
         <EditText
-            android:id="@+id/searchBar"
+            android:id="@+id/itemsSearchBar"
             android:layout_width="match_parent"
             android:layout_height="38dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/rounded_edittext"
-            android:hint="Search..."
+            android:hint="Search items..."
             android:paddingStart="12dp"
             android:textSize="14sp" />
 
-        <!-- Category Path -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <ImageView
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="5dp"
-                android:src="@drawable/ic_vector" />
-
-            <TextView
-                android:id="@+id/mainFilled"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Categories /"
-                android:textColor="@color/dark_gray"
-                android:textSize="12sp" />
-
-<!--            <TextView
-                android:id="@+id/subFielld"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Some Category 3 /"
-                android:textColor="@color/dark_gray"
-                android:textSize="12sp" />-->
-        </LinearLayout>
-
-        <!-- Divider -->
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginVertical="8dp"
             android:background="@color/light_gray" />
 
-        <Button
-            android:id="@+id/addCategoryButton"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/rounded_edittext"
-            android:backgroundTint="@color/light_gray"
-            android:text="+"
-            android:textColor="@color/black"
-            android:textSize="30sp" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginVertical="18dp"
-            android:background="@color/light_gray" />
-
-        <!-- Category List -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/categoryRecyclerView"
+            android:id="@+id/itemsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1" />
-
-
-
     </LinearLayout>
-
-
 </LinearLayout>
