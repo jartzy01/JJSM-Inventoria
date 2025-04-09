@@ -78,7 +78,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 .setPositiveButton("Delete", (dialog, which) -> {
                     FirebaseConnection.getInstance()
                             .getCategoryDb()
-                            .child(category.getId())
+                            .child(category.getName())
                             .removeValue();
                 })
                 .setNegativeButton("Cancel", null)
