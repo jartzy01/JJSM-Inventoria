@@ -1,5 +1,7 @@
 package com.example.jjsminventoria.database;
 
+
+import android.text.format.DateFormat;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -16,6 +18,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +28,7 @@ import model.Products;
 
 public class FirebaseConnection {
     private static FirebaseConnection instance;
-    private final DatabaseReference userDb, productsDb, categoryDb;
+    private final DatabaseReference userDb, productsDb, categoryDb, categoryDb, itemDb;
     private final StorageReference storageRef;
     private final FirebaseAuth auth;
     private final FirebaseAppCheck firebaseAppCheck;
@@ -34,7 +39,9 @@ public class FirebaseConnection {
                 "Products");
         categoryDb =
                 FirebaseDatabase.getInstance().getReference("Company").child("100").child(
-                        "Categories"); // Add
+                        "Categories"); 
+        historyDb = FirebaseDatabase.getInstance().getReference("History");
+        itemDb = FirebaseDatabase.getInstance().getReference("Items");
         // this line
 
         storageRef = FirebaseStorage.getInstance().getReference();
@@ -44,7 +51,7 @@ public class FirebaseConnection {
         firebaseAppCheck.installAppCheckProviderFactory(PlayIntegrityAppCheckProviderFactory.getInstance());
     }
 
-    public static FirebaseConnection getInstance(){
+    public static FirebaseConnection getInstance() {
         if (instance == null) {
             synchronized (FirebaseConnection.class) {
                 if (instance == null) {
@@ -110,22 +117,48 @@ public class FirebaseConnection {
         return categoryDb;
     }
 
-    public void logout() {
-        auth.signOut();
-    }
-
     public DatabaseReference getUserDb() {
         return userDb;
+    }
+
+    public DatabaseReference getHistoryDb() {
+        return historyDb;
     }
 
     public StorageReference getStorageRef() {
         return storageRef;
     }
 
+    public DatabaseReference getItemDb() {
+        return itemDb;
+    }
+
     public FirebaseAuth getAuth() {
         return auth;
     }
 
+
+    public void logout() {
+        auth.signOut();
+    }
+
+
+    public void logHistory(String actionType, String message) {
+        String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : "unknown";
+        String timestamp = DateFormat.format("yyyy-MM-dd HH:mm:ss", new Date()).toString();
+        String historyId = historyDb.push().getKey();
+
+        if (historyId == null) return;
+
+        Map<String, Object> historyMap = new HashMap<>();
+        historyMap.put("id", historyId);
+        historyMap.put("actionType", actionType);
+        historyMap.put("message", message);
+        historyMap.put("timestamp", timestamp);
+
+        historyDb.child(userId).child(historyId).setValue(historyMap);
+    }
+  
     public interface FetchProductsCallback{
         void onProductsFetched(List<Products> products);
         void onProductsFetchedFailed(Exception exception);
