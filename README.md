@@ -95,6 +95,12 @@ This is an **Android Java application** designed as an **e-commerce platform** w
 
 ---
 
+## UI 
+
+![Dashboard Page](./UI%20Images/Dashboard.png)
+
+---
+
 ## Installation and Setup
 
 1. Clone the repository:
