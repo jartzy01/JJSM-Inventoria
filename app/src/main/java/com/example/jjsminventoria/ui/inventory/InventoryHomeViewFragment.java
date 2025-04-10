@@ -23,11 +23,13 @@ public class InventoryHomeViewFragment extends Fragment {
     private FragmentInventoryHomeBinding binding;
     private InventoryHomeViewModel inventoryHomeViewModel;
 
+    private SearchView searchView;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        InventoryHomeViewModel dashboardViewModel =
+        inventoryHomeViewModel =
                 new ViewModelProvider(this).get(InventoryHomeViewModel.class);
 
         binding = FragmentInventoryHomeBinding.inflate(inflater, container, false);
@@ -43,7 +45,7 @@ public class InventoryHomeViewFragment extends Fragment {
         List<Products> productsList = loadMockInventory();
         inventoryHomeViewModel.setAllProducts(productsList);
 
-        binding.searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 inventoryHomeViewModel.filteredItems(query);

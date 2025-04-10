@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.glide)
     implementation(libs.play.services.auth)
+    implementation(libs.mpandroidchart)
     testImplementation(libs.junit)
     testImplementation(libs.ext.junit)
     androidTestImplementation(libs.ext.junit)

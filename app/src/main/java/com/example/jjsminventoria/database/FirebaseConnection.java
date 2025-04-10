@@ -28,7 +28,7 @@ import model.Products;
 
 public class FirebaseConnection {
     private static FirebaseConnection instance;
-    private final DatabaseReference userDb, productsDb, categoryDb, categoryDb, itemDb;
+    private final DatabaseReference userDb, productsDb, categoryDb, itemDb, historyDb;
     private final StorageReference storageRef;
     private final FirebaseAuth auth;
     private final FirebaseAppCheck firebaseAppCheck;

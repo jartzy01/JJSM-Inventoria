@@ -22,8 +22,7 @@
             android:theme="@style/Theme.JJSMInventoria" />
         <activity
             android:name=".MainMenuActivity"
-            android:exported="false"
-            android:label="@string/title_activity_main_menu_bottom_tabs" />
+            android:exported="false" />
         <activity
             android:name=".ForgotActivity"
             android:exported="false" />
