@@ -40,7 +40,8 @@ public class FirebaseConnection {
         categoryDb =
                 FirebaseDatabase.getInstance().getReference("Company").child("100").child(
                         "Categories"); 
-        historyDb = FirebaseDatabase.getInstance().getReference("History");
+        historyDb = FirebaseDatabase.getInstance().getReference("Company").child("100").child(
+                "Users").child("History");
         itemDb = FirebaseDatabase.getInstance().getReference("Items");
         // this line
 
@@ -83,6 +84,24 @@ public class FirebaseConnection {
         });
     }
 
+    public void fetchCategories(FetchCategoriesCallBack callBack) {
+        categoryDb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<String> categories = new ArrayList<>();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    categories.add(snapshot1.getKey());
+                }
+                callBack.onCategoriesFetched(categories);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callBack.onCategoriesFetchedFailed(error.toException());
+            }
+        });
+    }
+
     public void addProductsToCategories(Products product, List<String> categories) {
         String productKey = productsDb.push().getKey();
 
@@ -96,8 +115,12 @@ public class FirebaseConnection {
             productsDb.child(productKey).setValue(product);
 
             for (String categoryName : categories) {
-                FirebaseDatabase.getInstance().getReference("Company").child("100").child(
-                        "Products").child(productKey).setValue(true);
+                DatabaseReference categoryProductRef = FirebaseDatabase.getInstance().getReference(
+                        "Company").child("100").child(
+                        "Products").child(productKey);
+
+                categoryProductRef.setValue(true);
+                categoryProductRef.child("productData").setValue(product);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -162,5 +185,10 @@ public class FirebaseConnection {
     public interface FetchProductsCallback{
         void onProductsFetched(List<Products> products);
         void onProductsFetchedFailed(Exception exception);
+    }
+
+    public interface FetchCategoriesCallBack {
+        void onCategoriesFetched(List<String> categories);
+        void onCategoriesFetchedFailed(Exception exception);
     }
 }

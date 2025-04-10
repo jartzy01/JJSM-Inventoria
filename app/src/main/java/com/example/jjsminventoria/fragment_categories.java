@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +33,6 @@ public class fragment_categories extends Fragment {
 
     private Button addCategoryButton;
     private RecyclerView categoryRecyclerView;
-    private SearchView searchView;
     private EditText searchBar;
     private CategoryAdapter adapter;
     private List<Category> categoryList = new ArrayList<>();
@@ -53,8 +51,8 @@ public class fragment_categories extends Fragment {
 
         addCategoryButton = view.findViewById(R.id.addCategoryButton);
         categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView);
-        searchView = view.findViewById(R.id.searchView);
-        searchBar = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        searchBar = view.findViewById(R.id.searchBar);
+
 
         adapter = new CategoryAdapter(categoryList);
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
