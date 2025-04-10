@@ -34,7 +34,7 @@ public class InventoryHomeViewModel extends ViewModel {
     }
 
     private void loadProductsFromFirebase() {
-        FirebaseConnection.getInstance().fetchProducts(new FirebaseConnection.FetchProductsCallback() {
+        FirebaseConnection.getInstance().fetchProductsUnderCategory("All", new FirebaseConnection.FetchProductsCallback() {
             @Override
             public void onProductsFetched(List<Products> products) {
                 filteredProducts.setValue(products);

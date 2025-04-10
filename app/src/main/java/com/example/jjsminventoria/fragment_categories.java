@@ -2,8 +2,6 @@ package com.example.jjsminventoria;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +33,6 @@ public class fragment_categories extends Fragment {
     private Button addCategoryButton;
     private RecyclerView categoryRecyclerView;
     private SearchView searchView;
-    private EditText searchBar;
     private CategoryAdapter adapter;
     private List<Category> categoryList = new ArrayList<>();
 
@@ -54,7 +51,6 @@ public class fragment_categories extends Fragment {
         addCategoryButton = view.findViewById(R.id.addCategoryButton);
         categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView);
         searchView = view.findViewById(R.id.searchView);
-        searchBar = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
 
         adapter = new CategoryAdapter(categoryList);
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -71,16 +67,22 @@ public class fragment_categories extends Fragment {
                     .commit();
         });
 
-        searchBar.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void afterTextChanged(Editable s) {}
+        // ✅ SAFER search listener for SearchView
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.filter(query);
+                return true;
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.filter(s.toString());
+            public boolean onQueryTextChange(String newText) {
+                adapter.filter(newText);
+                return true;
             }
         });
 
+        // ✅ Load categories from Firebase
         FirebaseConnection.getInstance().getCategoryDb()
                 .addValueEventListener(new ValueEventListener() {
                     @Override
