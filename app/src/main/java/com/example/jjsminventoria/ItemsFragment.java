@@ -16,34 +16,31 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.jjsminventoria.adpters.ItemAdapter;
+import com.example.jjsminventoria.adpters.ProductAdapter;
 import com.example.jjsminventoria.database.FirebaseConnection;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Item;
+import model.Products;
 
 public class ItemsFragment extends Fragment {
 
-    private static final String ARG_CATEGORY_ID = "category_id";
-    private String categoryId;
+    private static final String ARG_CATEGORY_NAME = "category_name";
+    private String categoryName;
+
     private RecyclerView itemRecyclerView;
     private EditText searchBar;
-    private ItemAdapter itemAdapter;
-    private List<Item> itemList = new ArrayList<>();
     private Button addItemButton;
-
+    private ProductAdapter itemAdapter;
+    private List<Products> itemList = new ArrayList<>();
 
     public ItemsFragment() {}
 
-    public static ItemsFragment newInstance(String categoryId) {
+    public static ItemsFragment newInstance(String categoryName) {
         ItemsFragment fragment = new ItemsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_CATEGORY_ID, categoryId);
+        args.putString(ARG_CATEGORY_NAME, categoryName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,7 +49,7 @@ public class ItemsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            categoryId = getArguments().getString(ARG_CATEGORY_ID);
+            categoryName = getArguments().getString(ARG_CATEGORY_NAME);  // ✅ category name, not ID
         }
     }
 
@@ -67,27 +64,26 @@ public class ItemsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         itemRecyclerView = view.findViewById(R.id.itemsRecyclerView);
-        searchBar = view.findViewById(R.id.itemsSearchBar); // ✅ Corrected ID
+        searchBar = view.findViewById(R.id.itemsSearchBar);
+        addItemButton = view.findViewById(R.id.addItemButton);
 
-        itemAdapter = new ItemAdapter(itemList);
+        itemAdapter = new ProductAdapter(itemList);
         itemRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         itemRecyclerView.setAdapter(itemAdapter);
 
-        // Load items from Firebase
-        loadItems();
+        // ✅ Load products under this category from Firebase
+        loadProducts();
 
-        // Setup search bar
+        // ✅ Search logic
         searchBar.addTextChangedListener(new android.text.TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void afterTextChanged(android.text.Editable s) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterItems(s.toString());
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterProducts(s.toString());
             }
         });
 
-        // Header Tabs
+        // ✅ Back to categories
         TextView backTab = view.findViewById(R.id.itemsBack);
         backTab.setOnClickListener(v -> {
             getParentFragmentManager()
@@ -97,7 +93,8 @@ public class ItemsFragment extends Fragment {
                     .commit();
         });
 
-        TextView historyTab = view.findViewById(R.id.itemsTab);  // if you meant the "Items" tab
+        // ✅ Navigate to history
+        TextView historyTab = view.findViewById(R.id.itemsTab);
         historyTab.setOnClickListener(v -> {
             getParentFragmentManager()
                     .beginTransaction()
@@ -106,70 +103,77 @@ public class ItemsFragment extends Fragment {
                     .commit();
         });
 
-        addItemButton = view.findViewById(R.id.addItemButton);
+        // ✅ Add new product
+        addItemButton.setOnClickListener(v -> showAddProductDialog());
+    }
 
-        addItemButton.setOnClickListener(v -> {
-            showAddItemDialog();
+    private void loadProducts() {
+        FirebaseConnection.getInstance().fetchProductsUnderCategory(categoryName, new FirebaseConnection.FetchProductsCallback() {
+            @Override
+            public void onProductsFetched(List<Products> products) {
+                itemList.clear();
+                itemList.addAll(products);
+                itemAdapter.setProductList(itemList);
+            }
+
+            @Override
+            public void onProductsFetchedFailed(Exception exception) {
+                Toast.makeText(getContext(), "Error loading products", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
-    private void loadItems() {
-        FirebaseConnection.getInstance().getItemDb()
-                .orderByChild("categoryId")
-                .equalTo(categoryId)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        itemList.clear();
-                        for (DataSnapshot snap : snapshot.getChildren()) {
-                            Item item = snap.getValue(Item.class);
-                            if (item != null) {
-                                itemList.add(item);
-                            }
-                        }
-                        itemAdapter.setItemList(itemList);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        // Optional: Toast or log error
-                    }
-                });
-    }
-
-    private void filterItems(String query) {
-        List<Item> filteredList = new ArrayList<>();
-        for (Item item : itemList) {
-            if (item.getName().toLowerCase().contains(query.toLowerCase())) {
-                filteredList.add(item);
+    private void filterProducts(String query) {
+        List<Products> filtered = new ArrayList<>();
+        for (Products product : itemList) {
+            if (product.getName() != null && product.getName().toLowerCase().contains(query.toLowerCase())) {
+                filtered.add(product);
             }
         }
-        itemAdapter.setItemList(filteredList);
+        itemAdapter.setProductList(filtered);
     }
 
-    private void showAddItemDialog() {
+    private void showAddProductDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Add New Item");
+        builder.setTitle("Add New Product");
 
         final EditText input = new EditText(getContext());
-        input.setHint("Enter item name");
+        input.setHint("Enter product name");
         builder.setView(input);
 
         builder.setPositiveButton("Add", (dialog, which) -> {
-            String itemName = input.getText().toString().trim();
-            if (itemName.isEmpty()) {
-                Toast.makeText(getContext(), "Item name cannot be empty", Toast.LENGTH_SHORT).show();
+            String name = input.getText().toString().trim();
+            if (name.isEmpty()) {
+                Toast.makeText(getContext(), "Product name cannot be empty", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            String itemId = FirebaseConnection.getInstance().getItemDb().push().getKey();
-            if (itemId != null) {
-                model.Item newItem = new model.Item(itemId, itemName, categoryId);
-                FirebaseConnection.getInstance().getItemDb()
-                        .child(itemId)
-                        .setValue(newItem)
-                        .addOnSuccessListener(unused -> Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show())
-                        .addOnFailureListener(e -> Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            Products newProduct = new Products();
+            newProduct.setName(name);
+            newProduct.setQty(1);           // default quantity
+            newProduct.setWeight(0.0);      // default weight
+            newProduct.setDesc("New product"); // default description
+
+            String key = FirebaseConnection.getInstance().getRootDb()
+                    .child("Categories")
+                    .child(categoryName)
+                    .child("Products")
+                    .push().getKey();
+
+            if (key != null) {
+                FirebaseConnection.getInstance()
+                        .getRootDb()
+                        .child("Categories")
+                        .child(categoryName)
+                        .child("Products")
+                        .child(key)
+                        .setValue(newProduct)
+                        .addOnSuccessListener(unused -> {
+                            Toast.makeText(getContext(), "Product added", Toast.LENGTH_SHORT).show();
+                            loadProducts(); // refresh
+                        })
+                        .addOnFailureListener(e ->
+                                Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
         });
 

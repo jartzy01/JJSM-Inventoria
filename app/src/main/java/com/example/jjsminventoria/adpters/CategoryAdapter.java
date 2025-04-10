@@ -82,14 +82,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         });
 
         holder.editIcon.setOnClickListener(v -> {
-            Fragment itemsFragment = new ItemsFragment();
+            // ✅ Pass category name to ItemsFragment safely
+            Fragment itemsFragment = ItemsFragment.newInstance(category.getName());
+
             ((FragmentActivity) v.getContext()).getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.nav_host_fragment_activity_main_menu_bottom_tabs, itemsFragment)
                     .addToBackStack(null)
                     .commit();
         });
-
     }
 
     private void showDeleteConfirmation(Context context, Category category) {
