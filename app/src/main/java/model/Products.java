@@ -2,18 +2,14 @@ package model;
 
 public class Products {
     private int id;
-    private String category;
     private String desc;
     private String img;
     private String name;
     private int qty;
     private double weight;
 
-    public Products(int id, String category, String desc, String img, String name, int qty, double weight) {
-        this.id = id;
-        this.category = category;
+    public Products(String name, String desc, int qty, double weight) {
         this.desc = desc;
-        this.img = img;
         this.name = name;
         this.qty = qty;
         this.weight = weight;
@@ -29,14 +25,6 @@ public class Products {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public String getDesc() {

@@ -83,9 +83,12 @@ public class fragment_categories extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         categoryList.clear();
+
                         for (DataSnapshot snap : snapshot.getChildren()) {
+                            String categoryName = snap.getKey();
                             Category category = snap.getValue(Category.class);
                             if (category != null) {
+                                category.setName(categoryName);
                                 categoryList.add(category);
                             }
                         }
@@ -114,12 +117,11 @@ public class fragment_categories extends Fragment {
                 return;
             }
 
-            String id = FirebaseConnection.getInstance().getCategoryDb().push().getKey();
-            Category newCategory = new Category(id, name);
+            Category newCategory = new Category(name);
 
             FirebaseConnection.getInstance()
                     .getCategoryDb()
-                    .child(id)
+                    .child(name)
                     .setValue(newCategory)
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(getContext(), "Category added!", Toast.LENGTH_SHORT).show();

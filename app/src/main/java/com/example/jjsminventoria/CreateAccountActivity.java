@@ -123,7 +123,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                FirebaseUser firebaseUser = mAuth.getCurrentUser();
                if (firebaseUser != null) {
                    String userId = firebaseUser.getUid();
-                   Users users = new Users(userId, firstName, lastName, email, role);
+                   Users users = new Users(userId, password,firstName, lastName, email,role);
                    userDb.child(userId).setValue(users).addOnCompleteListener(dbTask -> {
                       if (dbTask.isSuccessful()) {
                           Toast.makeText(this, "✅ Account created successfully", Toast.LENGTH_SHORT).show();
