@@ -96,8 +96,9 @@ This is an **Android Java application** designed as an **e-commerce platform** w
 ---
 
 ## UI 
+
 ### Dashboard Page
-![Dashboard Page](./UI%20Images/Dashboard.png)
+<img src="./UI%20Images/Dashboard.png" alt="Dashboard Page" width="600"/>
 
 ---
 
