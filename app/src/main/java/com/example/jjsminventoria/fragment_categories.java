@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +50,7 @@ public class fragment_categories extends Fragment {
 
         addCategoryButton = view.findViewById(R.id.addCategoryButton);
         categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView);
-        searchView = view.findViewById(R.id.searchView);
+        searchView = view.findViewById(R.id.searchBar);
 
 
         adapter = new CategoryAdapter(categoryList);

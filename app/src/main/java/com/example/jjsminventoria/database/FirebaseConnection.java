@@ -31,6 +31,7 @@ public class FirebaseConnection {
     private final DatabaseReference usersDb;
     private final DatabaseReference categoriesDb;
     private final DatabaseReference historyDb;
+    private final DatabaseReference productsDb;
 
     private final StorageReference storageRef;
     private final FirebaseAuth auth;
@@ -38,15 +39,15 @@ public class FirebaseConnection {
 
     private FirebaseConnection() {
         rootDb = FirebaseDatabase.getInstance().getReference("Company").child("100");
-        userDb = FirebaseDatabase.getInstance().getReference("Company").child("100").child("Users");
+        usersDb = FirebaseDatabase.getInstance().getReference("Company").child("100").child(
+                "Users");
         productsDb = FirebaseDatabase.getInstance().getReference("Company").child("100").child(
                 "Products");
-        categoryDb =
+        categoriesDb =
                 FirebaseDatabase.getInstance().getReference("Company").child("100").child(
                         "Categories"); 
         historyDb = FirebaseDatabase.getInstance().getReference("Company").child("100").child(
                 "Users").child("History");
-        itemDb = FirebaseDatabase.getInstance().getReference("Items");
 
         storageRef = FirebaseStorage.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
@@ -87,7 +88,7 @@ public class FirebaseConnection {
     }
   
     public void fetchCategories(FetchCategoriesCallBack callBack) {
-        categoryDb.addListenerForSingleValueEvent(new ValueEventListener() {
+        categoriesDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<String> categories = new ArrayList<>();
@@ -131,7 +132,7 @@ public class FirebaseConnection {
 
     public void addCategory(String categoryName) {
         try {
-            DatabaseReference categoryRef = categoryDb.child(categoryName);
+            DatabaseReference categoryRef = categoriesDb.child(categoryName);
             categoryRef.child("Products").setValue(null);
         } catch (Exception e) {
             e.printStackTrace();
