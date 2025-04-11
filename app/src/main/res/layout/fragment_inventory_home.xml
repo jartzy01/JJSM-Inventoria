@@ -52,6 +52,8 @@
             android:src="@drawable/bell"/>
     </LinearLayout>
 
+
+
     <LinearLayout
         android:id="@+id/tabsContainer"
         android:layout_width="match_parent"
@@ -87,6 +89,8 @@
         </LinearLayout>
 
 
+
+
         <TextView
             android:id="@+id/tabHistory"
             android:layout_width="0dp"
@@ -99,6 +103,8 @@
             android:textSize="16sp" />
     </LinearLayout>
 
+
+
     <LinearLayout
         android:id="@+id/mainContentContainer"
         android:layout_width="match_parent"
@@ -109,11 +115,33 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- Tabs (Categories & History) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="-20dp"
+            android:padding="10dp">
 
-        <!-- Search Bar -->
+            <ImageView
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_vector" />
 
-        <!-- Category Path -->
+            <TextView
+                android:id="@+id/mainSection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Categories /"
+                android:textColor="@color/dark_gray"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+
         <SearchView
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
@@ -125,38 +153,6 @@
             android:paddingStart="12dp"
             android:textSize="14sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <ImageView
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="5dp"
-                android:src="@drawable/ic_vector" />
-
-            <TextView
-                android:id="@+id/mainFilled"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Categories /"
-                android:textColor="@color/dark_gray"
-                android:textSize="12sp" />
-
-<!--            <TextView
-                android:id="@+id/subFielld"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Some Category 3 /"
-                android:textColor="@color/dark_gray"
-                android:textSize="12sp" />-->
-        </LinearLayout>
 
         <!-- Divider -->
         <View

@@ -67,6 +67,10 @@ public class ItemsFragment extends Fragment {
         searchBar = view.findViewById(R.id.itemsSearchBar);
         addItemButton = view.findViewById(R.id.addItemButton);
 
+        // ✅ Set the breadcrumb category name dynamically
+        TextView subSection1 = view.findViewById(R.id.subSection1);
+        subSection1.setText(categoryName + " /");
+
         itemAdapter = new ProductAdapter(itemList, categoryName, this::loadProducts);
         itemRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         itemRecyclerView.setAdapter(itemAdapter);
@@ -100,13 +104,14 @@ public class ItemsFragment extends Fragment {
         });
 
         addItemButton.setOnClickListener(v -> {
-            Fragment createFragment = fragment_item_editing.newInstance(null, categoryName); // ✅ correct
+            Fragment createFragment = fragment_item_editing.newInstance(null, categoryName);
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.nav_host_fragment_activity_main_menu_bottom_tabs, createFragment)
                     .addToBackStack(null)
                     .commit();
-        });    }
+        });
+    }
 
     private void loadProducts() {
         FirebaseConnection.getInstance().fetchProductsUnderCategory(categoryName, new FirebaseConnection.FetchProductsCallback() {
@@ -162,7 +167,7 @@ public class ItemsFragment extends Fragment {
                     .push().getKey();
 
             if (key != null) {
-                newProduct.setId(key); // ✅ Set the Firebase key as product ID
+                newProduct.setId(key);
 
                 FirebaseConnection.getInstance()
                         .getRootDb()
