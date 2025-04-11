@@ -100,7 +100,7 @@ public class ItemsFragment extends Fragment {
         });
 
         addItemButton.setOnClickListener(v -> {
-            Fragment createFragment = fragment_item_editing.newInstance(null); // Null = create mode
+            Fragment createFragment = fragment_item_editing.newInstance(null, categoryName); // ✅ correct
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.nav_host_fragment_activity_main_menu_bottom_tabs, createFragment)
