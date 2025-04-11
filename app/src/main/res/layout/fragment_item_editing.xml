@@ -73,7 +73,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Some item 1"
+                android:text="Edit Item"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
