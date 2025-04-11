@@ -39,15 +39,10 @@ public class FirebaseConnection {
 
     private FirebaseConnection() {
         rootDb = FirebaseDatabase.getInstance().getReference("Company").child("100");
-        usersDb = FirebaseDatabase.getInstance().getReference("Company").child("100").child(
-                "Users");
-        productsDb = FirebaseDatabase.getInstance().getReference("Company").child("100").child(
-                "Products");
-        categoriesDb =
-                FirebaseDatabase.getInstance().getReference("Company").child("100").child(
-                        "Categories"); 
-        historyDb = FirebaseDatabase.getInstance().getReference("Company").child("100").child(
-                "Users").child("History");
+        usersDb = rootDb.child("Users");
+        productsDb = rootDb.child("Products");
+        categoriesDb = rootDb.child("Categories");
+        historyDb = usersDb.child("History");
 
         storageRef = FirebaseStorage.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
@@ -72,31 +67,7 @@ public class FirebaseConnection {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Products> productsList = new ArrayList<>();
                 for (DataSnapshot snap : snapshot.getChildren()) {
-                    Products product = new Products();
-
-                    // Use Firebase key as ID
-                    product.setId(snap.getKey());
-
-                    Object nameObj = snap.child("name").getValue();
-                    if (nameObj instanceof String) product.setName((String) nameObj);
-
-                    Object descObj = snap.child("desc").getValue();
-                    if (descObj instanceof String) product.setDesc((String) descObj);
-
-                    Object imgObj = snap.child("img").getValue();
-                    if (imgObj instanceof String) product.setImg((String) imgObj);
-
-                    Object qtyObj = snap.child("qty").getValue();
-                    if (qtyObj instanceof Long) product.setQty(((Long) qtyObj).intValue());
-
-                    Object weightObj = snap.child("weight").getValue();
-                    if (weightObj instanceof Double) {
-                        product.setWeight((Double) weightObj);
-                    } else if (weightObj instanceof Long) {
-                        product.setWeight(((Long) weightObj).doubleValue());
-                    }
-
-                    productsList.add(product);
+                    productsList.add(parseProduct(snap));
                 }
                 callBack.onProductsFetched(productsList);
             }
@@ -108,13 +79,68 @@ public class FirebaseConnection {
         });
     }
 
+    public void fetchProductsUnderCategory(String categoryName, FetchProductsCallback callback) {
+        DatabaseReference productsRef = rootDb
+                .child("Categories")
+                .child(categoryName)
+                .child("Products");
+
+        productsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Products> productList = new ArrayList<>();
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    productList.add(parseProduct(snap));
+                }
+                callback.onProductsFetched(productList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onProductsFetchedFailed(error.toException());
+            }
+        });
+    }
+
+    private Products parseProduct(DataSnapshot snap) {
+        Products product = new Products();
+
+        product.setId(snap.getKey());
+
+        Object name = snap.child("name").getValue();
+        if (name instanceof String) product.setName((String) name);
+
+        Object desc = snap.child("desc").getValue();
+        if (desc instanceof String) product.setDesc((String) desc);
+
+        Object img = snap.child("img").getValue();
+        if (img instanceof String) product.setImg((String) img);
+
+        Object qty = snap.child("qty").getValue();
+        if (qty instanceof Long) product.setQty(((Long) qty).intValue());
+
+        Object weight = snap.child("weight").getValue();
+        if (weight instanceof Double) product.setWeight((Double) weight);
+        else if (weight instanceof Long) product.setWeight(((Long) weight).doubleValue());
+
+        Object price = snap.child("price").getValue();
+        if (price instanceof Double) product.setPrice((Double) price);
+        else if (price instanceof Long) product.setPrice(((Long) price).doubleValue());
+
+        Object discount = snap.child("discount").getValue();
+        if (discount instanceof Double) product.setDiscount((Double) discount);
+        else if (discount instanceof Long) product.setDiscount(((Long) discount).doubleValue());
+
+        return product;
+    }
+
     public void fetchCategories(FetchCategoriesCallBack callBack) {
         categoriesDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<String> categories = new ArrayList<>();
-                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                    categories.add(snapshot1.getKey());
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    categories.add(snap.getKey());
                 }
                 callBack.onCategoriesFetched(categories);
             }
@@ -139,12 +165,13 @@ public class FirebaseConnection {
             productsDb.child(productKey).setValue(product);
 
             for (String categoryName : categories) {
-                DatabaseReference categoryProductRef = FirebaseDatabase.getInstance().getReference(
-                        "Company").child("100").child(
-                        "Products").child(productKey);
+                DatabaseReference categoryProductRef = rootDb
+                        .child("Categories")
+                        .child(categoryName)
+                        .child("Products")
+                        .child(productKey);
 
-                categoryProductRef.setValue(true);
-                categoryProductRef.child("productData").setValue(product);
+                categoryProductRef.setValue(product);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -159,7 +186,28 @@ public class FirebaseConnection {
             e.printStackTrace();
         }
     }
-  
+
+    public void logHistory(String actionType, String message) {
+        String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : "unknown";
+        String timestamp = DateFormat.format("yyyy-MM-dd HH:mm:ss", new Date()).toString();
+        String historyId = historyDb.push().getKey();
+
+        if (historyId == null) return;
+
+        Map<String, Object> historyMap = new HashMap<>();
+        historyMap.put("id", historyId);
+        historyMap.put("actionType", actionType);
+        historyMap.put("message", message);
+        historyMap.put("timestamp", timestamp);
+
+        historyDb.child(userId).child(historyId).setValue(historyMap);
+    }
+
+    public void logout() {
+        auth.signOut();
+    }
+
+    // Getters
     public DatabaseReference getRootDb() {
         return rootDb;
     }
@@ -184,76 +232,7 @@ public class FirebaseConnection {
         return auth;
     }
 
-    public void logout() {
-        auth.signOut();
-    }
-
-    public void logHistory(String actionType, String message) {
-        String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : "unknown";
-        String timestamp = DateFormat.format("yyyy-MM-dd HH:mm:ss", new Date()).toString();
-        String historyId = historyDb.push().getKey();
-
-        if (historyId == null) return;
-
-        Map<String, Object> historyMap = new HashMap<>();
-        historyMap.put("id", historyId);
-        historyMap.put("actionType", actionType);
-        historyMap.put("message", message);
-        historyMap.put("timestamp", timestamp);
-
-        historyDb.child(userId).child(historyId).setValue(historyMap);
-    }
-
-    // ✅ Updated method to handle Firebase type mismatches gracefully
-    public void fetchProductsUnderCategory(String categoryName, FetchProductsCallback callback) {
-        DatabaseReference productsRef = rootDb
-                .child("Categories")
-                .child(categoryName)
-                .child("Products");
-
-        productsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Products> productList = new ArrayList<>();
-                for (DataSnapshot snap : snapshot.getChildren()) {
-                    Products product = new Products();
-
-                    // Use Firebase key as ID
-                    product.setId(snap.getKey());
-
-                    Object nameObj = snap.child("name").getValue();
-                    if (nameObj instanceof String) product.setName((String) nameObj);
-
-                    Object descObj = snap.child("desc").getValue();
-                    if (descObj instanceof String) product.setDesc((String) descObj);
-
-                    Object imgObj = snap.child("img").getValue();
-                    if (imgObj instanceof String) product.setImg((String) imgObj);
-
-                    Object qtyObj = snap.child("qty").getValue();
-                    if (qtyObj instanceof Long) product.setQty(((Long) qtyObj).intValue());
-
-                    Object weightObj = snap.child("weight").getValue();
-                    if (weightObj instanceof Double) {
-                        product.setWeight((Double) weightObj);
-                    } else if (weightObj instanceof Long) {
-                        product.setWeight(((Long) weightObj).doubleValue());
-                    }
-
-                    productList.add(product);
-                }
-
-                callback.onProductsFetched(productList);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                callback.onProductsFetchedFailed(error.toException());
-            }
-        });
-    }
-
-    // ✅ Interface for async callback
+    // Callback Interfaces
     public interface FetchProductsCallback {
         void onProductsFetched(List<Products> products);
         void onProductsFetchedFailed(Exception exception);
