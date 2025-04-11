@@ -49,7 +49,7 @@ public class ItemsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            categoryName = getArguments().getString(ARG_CATEGORY_NAME);  // ✅ category name, not ID
+            categoryName = getArguments().getString(ARG_CATEGORY_NAME);
         }
     }
 
@@ -67,14 +67,12 @@ public class ItemsFragment extends Fragment {
         searchBar = view.findViewById(R.id.itemsSearchBar);
         addItemButton = view.findViewById(R.id.addItemButton);
 
-        itemAdapter = new ProductAdapter(itemList);
+        itemAdapter = new ProductAdapter(itemList, categoryName, this::loadProducts);
         itemRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         itemRecyclerView.setAdapter(itemAdapter);
 
-        // ✅ Load products under this category from Firebase
         loadProducts();
 
-        // ✅ Search logic
         searchBar.addTextChangedListener(new android.text.TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void afterTextChanged(android.text.Editable s) {}
@@ -83,7 +81,6 @@ public class ItemsFragment extends Fragment {
             }
         });
 
-        // ✅ Back to categories
         TextView backTab = view.findViewById(R.id.itemsBack);
         backTab.setOnClickListener(v -> {
             getParentFragmentManager()
@@ -93,7 +90,6 @@ public class ItemsFragment extends Fragment {
                     .commit();
         });
 
-        // ✅ Navigate to history
         TextView historyTab = view.findViewById(R.id.itemsTab);
         historyTab.setOnClickListener(v -> {
             getParentFragmentManager()
@@ -103,9 +99,14 @@ public class ItemsFragment extends Fragment {
                     .commit();
         });
 
-        // ✅ Add new product
-        addItemButton.setOnClickListener(v -> showAddProductDialog());
-    }
+        addItemButton.setOnClickListener(v -> {
+            Fragment createFragment = fragment_item_editing.newInstance(null); // Null = create mode
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment_activity_main_menu_bottom_tabs, createFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });    }
 
     private void loadProducts() {
         FirebaseConnection.getInstance().fetchProductsUnderCategory(categoryName, new FirebaseConnection.FetchProductsCallback() {
@@ -150,9 +151,9 @@ public class ItemsFragment extends Fragment {
 
             Products newProduct = new Products();
             newProduct.setName(name);
-            newProduct.setQty(1);           // default quantity
-            newProduct.setWeight(0.0);      // default weight
-            newProduct.setDesc("New product"); // default description
+            newProduct.setQty(1);
+            newProduct.setWeight(0.0);
+            newProduct.setDesc("New product");
 
             String key = FirebaseConnection.getInstance().getRootDb()
                     .child("Categories")
@@ -161,6 +162,8 @@ public class ItemsFragment extends Fragment {
                     .push().getKey();
 
             if (key != null) {
+                newProduct.setId(key); // ✅ Set the Firebase key as product ID
+
                 FirebaseConnection.getInstance()
                         .getRootDb()
                         .child("Categories")
@@ -170,7 +173,7 @@ public class ItemsFragment extends Fragment {
                         .setValue(newProduct)
                         .addOnSuccessListener(unused -> {
                             Toast.makeText(getContext(), "Product added", Toast.LENGTH_SHORT).show();
-                            loadProducts(); // refresh
+                            loadProducts();
                         })
                         .addOnFailureListener(e ->
                                 Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());

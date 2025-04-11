@@ -1,7 +1,9 @@
 package model;
 
-public class Products {
-    private int id;
+import java.io.Serializable;
+
+public class Products implements Serializable {
+    private String id;
     private String desc;
     private String img;
     private String name;
@@ -15,15 +17,13 @@ public class Products {
         this.weight = weight;
     }
 
-    public Products(){
+    public Products() {}
 
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
