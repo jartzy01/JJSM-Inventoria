@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.jjsminventoria.adpters.ItemAdapter;
 import com.example.jjsminventoria.databinding.FragmentInventoryHomeBinding;
 
 import java.util.ArrayList;
@@ -22,14 +23,13 @@ public class InventoryHomeViewFragment extends Fragment {
 
     private FragmentInventoryHomeBinding binding;
     private InventoryHomeViewModel inventoryHomeViewModel;
-
-    private SearchView searchView;
+    private ItemAdapter itemAdapter;
 
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        inventoryHomeViewModel =
+        InventoryHomeViewModel dashboardViewModel =
                 new ViewModelProvider(this).get(InventoryHomeViewModel.class);
 
         binding = FragmentInventoryHomeBinding.inflate(inflater, container, false);
@@ -45,7 +45,16 @@ public class InventoryHomeViewFragment extends Fragment {
         List<Products> productsList = loadMockInventory();
         inventoryHomeViewModel.setAllProducts(productsList);
 
-        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        itemAdapter = new ItemAdapter(new ArrayList<>()); // Initialize with an empty list
+        binding.categoryRecyclerView.setAdapter(itemAdapter);
+
+        // Observe the filtered products and update the adapter
+        inventoryHomeViewModel.getFilteredProducts().observe(getViewLifecycleOwner(), filteredList -> {
+            // Update the RecyclerView with filtered products
+            //itemAdapter.setItemList(filteredList);
+        });
+
+        binding.searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 inventoryHomeViewModel.filteredItems(query);

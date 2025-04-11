@@ -38,9 +38,15 @@ public class FirebaseConnection {
 
     private FirebaseConnection() {
         rootDb = FirebaseDatabase.getInstance().getReference("Company").child("100");
-        usersDb = rootDb.child("Users");
-        categoriesDb = rootDb.child("Categories");
-        historyDb = FirebaseDatabase.getInstance().getReference("History");
+        userDb = FirebaseDatabase.getInstance().getReference("Company").child("100").child("Users");
+        productsDb = FirebaseDatabase.getInstance().getReference("Company").child("100").child(
+                "Products");
+        categoryDb =
+                FirebaseDatabase.getInstance().getReference("Company").child("100").child(
+                        "Categories"); 
+        historyDb = FirebaseDatabase.getInstance().getReference("Company").child("100").child(
+                "Users").child("History");
+        itemDb = FirebaseDatabase.getInstance().getReference("Items");
 
         storageRef = FirebaseStorage.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
@@ -58,7 +64,80 @@ public class FirebaseConnection {
         }
         return instance;
     }
+  
+    public void fetchProducts(FetchProductsCallback  callBack) {
+        productsDb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Products> productsList = new ArrayList<>();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    Products product = snapshot1.getValue(Products.class);
+                    if (product != null) {
+                        productsList.add(product);
+                    }
+                }
+                callBack.onProductsFetched(productsList);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callBack.onProductsFetchedFailed(error.toException());
+            }
+        });
+    }
+  
+    public void fetchCategories(FetchCategoriesCallBack callBack) {
+        categoryDb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<String> categories = new ArrayList<>();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    categories.add(snapshot1.getKey());
+                }
+                callBack.onCategoriesFetched(categories);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callBack.onCategoriesFetchedFailed(error.toException());
+            }
+        });
+    }
+
+    public void addProductsToCategories(Products product, List<String> categories) {
+        String productKey = productsDb.push().getKey();
+
+        if (productKey == null) {
+            System.err.println("Failed to generate Firebase key for product.");
+            return;
+        }
+
+        try {
+            product.setId(productKey.hashCode());
+            productsDb.child(productKey).setValue(product);
+
+            for (String categoryName : categories) {
+                DatabaseReference categoryProductRef = FirebaseDatabase.getInstance().getReference(
+                        "Company").child("100").child(
+                        "Products").child(productKey);
+
+                categoryProductRef.setValue(true);
+                categoryProductRef.child("productData").setValue(product);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCategory(String categoryName) {
+        try {
+            DatabaseReference categoryRef = categoryDb.child(categoryName);
+            categoryRef.child("Products").setValue(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+  
     public DatabaseReference getRootDb() {
         return rootDb;
     }
@@ -156,5 +235,10 @@ public class FirebaseConnection {
     public interface FetchProductsCallback {
         void onProductsFetched(List<Products> products);
         void onProductsFetchedFailed(Exception exception);
+    }
+
+    public interface FetchCategoriesCallBack {
+        void onCategoriesFetched(List<String> categories);
+        void onCategoriesFetchedFailed(Exception exception);
     }
 }

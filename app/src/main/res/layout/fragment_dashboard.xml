@@ -6,36 +6,69 @@
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardFragment">
 
-    <TextView
-        android:id="@+id/text_home"
+    <LinearLayout
+        android:id="@+id/llDashboard0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="365dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            app:cardCornerRadius="18dp"
+            android:elevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Inventory Quantity"
+                    android:textStyle="bold"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/tvInventoryQty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="30sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llDashboard1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/llDashboard0">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="175dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="12dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginEnd="10dp"
                 app:cardCornerRadius="18dp"
                 app:elevation="6dp">
@@ -48,7 +81,6 @@
                     android:layout_gravity="center_vertical">
 
                     <TextView
-                        android:id="@+id/tvTotalProducts"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -57,7 +89,7 @@
                         android:textStyle="bold"/>
 
                     <TextView
-                        android:id="@+id/tvTotalProductsValue"
+                        android:id="@+id/tvTotalProducts"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
@@ -84,7 +116,6 @@
                 android:layout_gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/tvTotCategories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Categories"
@@ -92,7 +123,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/tvTotCategoriesValue"
+                    android:id="@+id/tvTotCategories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
@@ -107,7 +138,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llDashboard1">
 
@@ -116,7 +146,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:layout_marginTop="0dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="20dp"
             android:layout_marginEnd="5dp"
             app:cardCornerRadius="18dp"
             android:elevation="6dp">
@@ -184,16 +214,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llDashboard2">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
+            android:layout_width="365dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
             android:layout_marginEnd="10dp"
             app:cardCornerRadius="18dp"
             app:elevation="6dp">
