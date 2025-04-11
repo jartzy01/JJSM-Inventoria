@@ -5,13 +5,18 @@
     android:orientation="vertical"
     android:background="@android:color/white">
 
+    <!-- Divider Line -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
     <!-- Row Content -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="12dp">
+        android:paddingHorizontal="12dp">
 
         <!-- Folder Icon -->
         <ImageView
@@ -36,9 +41,9 @@
         <LinearLayout
             android:id="@+id/actionContainer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="invisible">
 
             <ImageView
                 android:id="@+id/editContainer"
@@ -56,9 +61,5 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Divider Line -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/light_gray" />
+
 </LinearLayout>

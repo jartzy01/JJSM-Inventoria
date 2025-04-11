@@ -1,5 +1,6 @@
 package com.example.jjsminventoria.adpters;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,14 +53,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Products product = productList.get(position);
         holder.itemName.setText(product.getName());
 
-        holder.actionContainer.setVisibility(selectedPosition == position ? View.VISIBLE : View.GONE);
+        holder.actionContainer.setVisibility(selectedPosition == position ? View.VISIBLE : View.INVISIBLE);
 
         holder.itemContainer.setOnClickListener(v -> {
-            if (selectedPosition == position) {
-                selectedPosition = -1;
-            } else {
-                selectedPosition = position;
-            }
+            selectedPosition = (selectedPosition == position) ? -1 : position;
             notifyDataSetChanged();
         });
 
@@ -77,7 +74,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                                 .removeValue()
                                 .addOnSuccessListener(unused -> {
                                     Toast.makeText(v.getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
-                                    if (refreshCallback != null) refreshCallback.run(); // ✅ Auto-refresh
+                                    if (refreshCallback != null) refreshCallback.run();
                                 })
                                 .addOnFailureListener(e ->
                                         Toast.makeText(v.getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
@@ -85,19 +82,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     .setNegativeButton("No", null)
                     .show();
         });
-
-        // If you want to restore the edit functionality later, uncomment below
-        /*
-        holder.editIcon.setOnClickListener(v -> {
-            Fragment editFragment = fragment_item_editing.newInstance(product);
-            ((FragmentActivity) v.getContext()).getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.nav_host_fragment_activity_main_menu_bottom_tabs, editFragment)
-                    .addToBackStack(null)
-                    .commit();
-        });
-        */
     }
+
 
     @Override
     public int getItemCount() {

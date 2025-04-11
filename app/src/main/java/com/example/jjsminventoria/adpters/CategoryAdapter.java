@@ -70,7 +70,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = categoryList.get(position);
         holder.bind(category);
-        holder.actionContainer.setVisibility(position == selectedPosition ? View.VISIBLE : View.GONE);
+        holder.actionContainer.setVisibility(position == selectedPosition ? View.VISIBLE : View.INVISIBLE);
 
         holder.itemView.setOnClickListener(v -> {
             selectedPosition = (selectedPosition == position) ? -1 : position;

@@ -6,6 +6,13 @@
     android:padding="12dp"
     android:background="@android:color/white">
 
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/light_gray" />
+
     <!-- Action Message -->
     <TextView
         android:id="@+id/historyMessage"
@@ -26,10 +33,5 @@
         android:textSize="14sp"
         android:layout_marginTop="4dp" />
 
-    <!-- Divider -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/light_gray" />
+
 </LinearLayout>
