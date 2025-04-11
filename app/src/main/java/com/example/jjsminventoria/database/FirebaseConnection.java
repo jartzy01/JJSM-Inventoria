@@ -65,17 +65,38 @@ public class FirebaseConnection {
         }
         return instance;
     }
-  
-    public void fetchProducts(FetchProductsCallback  callBack) {
+
+    public void fetchProducts(FetchProductsCallback callBack) {
         productsDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Products> productsList = new ArrayList<>();
-                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                    Products product = snapshot1.getValue(Products.class);
-                    if (product != null) {
-                        productsList.add(product);
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    Products product = new Products();
+
+                    // Use Firebase key as ID
+                    product.setId(snap.getKey());
+
+                    Object nameObj = snap.child("name").getValue();
+                    if (nameObj instanceof String) product.setName((String) nameObj);
+
+                    Object descObj = snap.child("desc").getValue();
+                    if (descObj instanceof String) product.setDesc((String) descObj);
+
+                    Object imgObj = snap.child("img").getValue();
+                    if (imgObj instanceof String) product.setImg((String) imgObj);
+
+                    Object qtyObj = snap.child("qty").getValue();
+                    if (qtyObj instanceof Long) product.setQty(((Long) qtyObj).intValue());
+
+                    Object weightObj = snap.child("weight").getValue();
+                    if (weightObj instanceof Double) {
+                        product.setWeight((Double) weightObj);
+                    } else if (weightObj instanceof Long) {
+                        product.setWeight(((Long) weightObj).doubleValue());
                     }
+
+                    productsList.add(product);
                 }
                 callBack.onProductsFetched(productsList);
             }
@@ -86,7 +107,7 @@ public class FirebaseConnection {
             }
         });
     }
-  
+
     public void fetchCategories(FetchCategoriesCallBack callBack) {
         categoriesDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -114,7 +135,7 @@ public class FirebaseConnection {
         }
 
         try {
-            product.setId(productKey.hashCode());
+            product.setId(productKey);
             productsDb.child(productKey).setValue(product);
 
             for (String categoryName : categories) {
