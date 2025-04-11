@@ -21,14 +21,18 @@ import model.Products;
 public class fragment_item_editing extends Fragment {
 
     private static final String ARG_PRODUCT = "product";
+    private static final String ARG_CATEGORY = "category";
+
     private Products product;
+    private String categoryName;
 
     public fragment_item_editing() {}
 
-    public static fragment_item_editing newInstance(Products product) {
+    public static fragment_item_editing newInstance(Products product, String categoryName) {
         fragment_item_editing fragment = new fragment_item_editing();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PRODUCT, product);
+        args.putString(ARG_CATEGORY, categoryName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,6 +42,7 @@ public class fragment_item_editing extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             product = (Products) getArguments().getSerializable(ARG_PRODUCT);
+            categoryName = getArguments().getString(ARG_CATEGORY, "Default");
         }
     }
 
@@ -80,7 +85,7 @@ public class fragment_item_editing extends Fragment {
 
         Button saveButton = view.findViewById(R.id.saveButton);
         saveButton.setOnClickListener(v -> {
-            String name = itemTitle.getText().toString().trim(); // ✅ FIXED
+            String name = itemTitle.getText().toString().trim();
             String descriptionText = description.getText().toString().trim();
             String stockText = stock.getText().toString().trim();
             String priceText = price.getText().toString().trim();
@@ -100,10 +105,9 @@ public class fragment_item_editing extends Fragment {
                         .setImg(placeholderImg)
                         .build();
 
-                String category = "Default";
                 String productKey = FirebaseConnection.getInstance().getRootDb()
                         .child("Categories")
-                        .child(category)
+                        .child(categoryName)
                         .child("Products")
                         .push()
                         .getKey();
@@ -112,15 +116,15 @@ public class fragment_item_editing extends Fragment {
                     builtProduct.setId(productKey);
                     FirebaseConnection.getInstance().getRootDb()
                             .child("Categories")
-                            .child(category)
+                            .child(categoryName)
                             .child("Products")
                             .child(productKey)
                             .setValue(builtProduct)
                             .addOnSuccessListener(task -> {
                                 Toast.makeText(getContext(), "Product saved!", Toast.LENGTH_SHORT).show();
 
-                                // 🔁 Navigate to ItemsFragment (pass category if needed)
-                                Fragment itemsFragment = ItemsFragment.newInstance(category);
+                                // ✅ Navigate back to ItemsFragment with correct category
+                                Fragment itemsFragment = ItemsFragment.newInstance(categoryName);
                                 getParentFragmentManager()
                                         .beginTransaction()
                                         .replace(R.id.nav_host_fragment_activity_main_menu_bottom_tabs, itemsFragment)
