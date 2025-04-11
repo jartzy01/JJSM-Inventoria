@@ -142,9 +142,6 @@ public class DashboardFragment extends Fragment {
         legend.setTextSize(16f);
         legend.setFormSize(16f);
 
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-
         pieChart.invalidate();
     }
 
