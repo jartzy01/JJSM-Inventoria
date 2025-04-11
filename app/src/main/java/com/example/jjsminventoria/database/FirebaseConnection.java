@@ -183,7 +183,7 @@ public class FirebaseConnection {
         historyDb.child(userId).child(historyId).setValue(historyMap);
     }
 
-    // ✅ NEW: Fetch Products under a given category name
+    // ✅ Updated method to handle Firebase type mismatches gracefully
     public void fetchProductsUnderCategory(String categoryName, FetchProductsCallback callback) {
         DatabaseReference productsRef = rootDb
                 .child("Categories")
@@ -195,11 +195,33 @@ public class FirebaseConnection {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Products> productList = new ArrayList<>();
                 for (DataSnapshot snap : snapshot.getChildren()) {
-                    Products product = snap.getValue(Products.class);
-                    if (product != null) {
-                        productList.add(product);
+                    Products product = new Products();
+
+                    // Use Firebase key as ID
+                    product.setId(snap.getKey());
+
+                    Object nameObj = snap.child("name").getValue();
+                    if (nameObj instanceof String) product.setName((String) nameObj);
+
+                    Object descObj = snap.child("desc").getValue();
+                    if (descObj instanceof String) product.setDesc((String) descObj);
+
+                    Object imgObj = snap.child("img").getValue();
+                    if (imgObj instanceof String) product.setImg((String) imgObj);
+
+                    Object qtyObj = snap.child("qty").getValue();
+                    if (qtyObj instanceof Long) product.setQty(((Long) qtyObj).intValue());
+
+                    Object weightObj = snap.child("weight").getValue();
+                    if (weightObj instanceof Double) {
+                        product.setWeight((Double) weightObj);
+                    } else if (weightObj instanceof Long) {
+                        product.setWeight(((Long) weightObj).doubleValue());
                     }
+
+                    productList.add(product);
                 }
+
                 callback.onProductsFetched(productList);
             }
 
@@ -210,7 +232,7 @@ public class FirebaseConnection {
         });
     }
 
-    // ✅ Callback Interface for Async Product Fetching
+    // ✅ Interface for async callback
     public interface FetchProductsCallback {
         void onProductsFetched(List<Products> products);
         void onProductsFetchedFailed(Exception exception);
