@@ -91,9 +91,46 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/rounded_background_right_corner"
+        android:background="@drawable/rounded_background_left_corner"
         android:orientation="vertical"
         android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="-20dp"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_vector" />
+
+            <TextView
+                android:id="@+id/mainSection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Categories /"
+                android:textColor="@color/dark_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/subSection1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Some Category 3 /"
+                android:textColor="@color/dark_gray"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+
 
         <EditText
             android:id="@+id/itemsSearchBar"

@@ -63,19 +63,31 @@ public class fragment_item_editing extends Fragment {
         EditText price = view.findViewById(R.id.PriceInput);
         EditText discount = view.findViewById(R.id.discountInput);
 
-        // 🟢 Pre-fill fields if editing
+        // Breadcrumb setup 🧭
+        TextView mainSection = view.findViewById(R.id.mainSection);
+        TextView subSection1 = view.findViewById(R.id.subSection1);
+        TextView subSection2 = view.findViewById(R.id.subSection2);
+
+        mainSection.setText("Categories /");
+        subSection1.setText(categoryName + " /");
+
         if (product != null) {
+            subSection2.setText(product.getName() != null ? product.getName() : "Unnamed");
+            subSection2.setVisibility(View.VISIBLE);
+
             itemTitle.setText(product.getName());
             description.setText(product.getDesc());
             id.setText(product.getId() != null ? product.getId() : "");
+            id.setEnabled(false); // disable editing ID
             stock.setText(String.valueOf(product.getQty()));
             price.setText(String.valueOf(product.getPrice()));
             discount.setText(String.valueOf(product.getDiscount()));
         } else {
+            subSection2.setVisibility(View.GONE); // hide if creating new item
             id.setEnabled(false);
         }
 
-        // 🔁 History tab click
+        // Tab switch
         TextView historyTab = view.findViewById(R.id.tabHistory);
         historyTab.setOnClickListener(v -> {
             getParentFragmentManager()
@@ -85,7 +97,7 @@ public class fragment_item_editing extends Fragment {
                     .commit();
         });
 
-        // ✅ Save logic
+        // Save Button
         Button saveButton = view.findViewById(R.id.saveButton);
         saveButton.setOnClickListener(v -> {
             String name = itemTitle.getText().toString().trim();
@@ -100,7 +112,6 @@ public class fragment_item_editing extends Fragment {
                 double discountVal = Double.parseDouble(discountText);
                 String placeholderImg = "no_image";
 
-                // 🏗️ Build product
                 Products builtProduct = new ProductBuilder()
                         .setName(name.isEmpty() ? "Untitled" : name)
                         .setDesc(descriptionText)
@@ -112,22 +123,17 @@ public class fragment_item_editing extends Fragment {
                 builtProduct.setPrice(priceVal);
                 builtProduct.setDiscount(discountVal);
 
-                // ✏️ Editing mode uses same ID, else generate a new one
-                String productKey;
-                if (product != null && product.getId() != null) {
-                    productKey = product.getId();
-                } else {
-                    productKey = FirebaseConnection.getInstance().getRootDb()
-                            .child("Categories")
-                            .child(categoryName)
-                            .child("Products")
-                            .push()
-                            .getKey();
-                }
+                String productKey = (product != null && product.getId() != null)
+                        ? product.getId()
+                        : FirebaseConnection.getInstance().getRootDb()
+                        .child("Categories")
+                        .child(categoryName)
+                        .child("Products")
+                        .push()
+                        .getKey();
 
                 if (productKey != null) {
                     builtProduct.setId(productKey);
-
                     FirebaseConnection.getInstance().getRootDb()
                             .child("Categories")
                             .child(categoryName)
@@ -136,21 +142,53 @@ public class fragment_item_editing extends Fragment {
                             .setValue(builtProduct)
                             .addOnSuccessListener(task -> {
                                 Toast.makeText(getContext(), "Product saved!", Toast.LENGTH_SHORT).show();
-                                Fragment itemsFragment = ItemsFragment.newInstance(categoryName);
-                                getParentFragmentManager()
-                                        .beginTransaction()
-                                        .replace(R.id.nav_host_fragment_activity_main_menu_bottom_tabs, itemsFragment)
-                                        .addToBackStack(null)
-                                        .commit();
+                                navigateBackToItems();
                             })
-                            .addOnFailureListener(e ->
-                                    Toast.makeText(getContext(), "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show()
-                            );
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(getContext(), "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
                 }
 
             } catch (NumberFormatException e) {
                 Toast.makeText(getContext(), "Please fill all numeric fields correctly.", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Delete Button
+        Button deleteButton = view.findViewById(R.id.deleteButton);
+        deleteButton.setOnClickListener(v -> {
+            if (product != null && product.getId() != null) {
+                new android.app.AlertDialog.Builder(getContext())
+                        .setTitle("Delete Item")
+                        .setMessage("Are you sure you want to delete this item?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            FirebaseConnection.getInstance().getRootDb()
+                                    .child("Categories")
+                                    .child(categoryName)
+                                    .child("Products")
+                                    .child(product.getId())
+                                    .removeValue()
+                                    .addOnSuccessListener(unused -> {
+                                        Toast.makeText(getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
+                                        navigateBackToItems();
+                                    })
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            } else {
+                navigateBackToItems(); // Discard and go back
+            }
+        });
+    }
+
+    private void navigateBackToItems() {
+        Fragment itemsFragment = ItemsFragment.newInstance(categoryName);
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment_activity_main_menu_bottom_tabs, itemsFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
