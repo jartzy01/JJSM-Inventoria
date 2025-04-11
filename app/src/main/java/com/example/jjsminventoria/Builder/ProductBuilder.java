@@ -9,6 +9,8 @@ public class ProductBuilder {
     private String img;
     private int qty;
     private double weight;
+    private double price;
+    private double discount;
 
     public ProductBuilder setId(String id) {
         this.id = id;
@@ -40,14 +42,26 @@ public class ProductBuilder {
         return this;
     }
 
+    public ProductBuilder setPrice(double price) {
+        this.price = price;
+        return this;
+    }
+
+    public ProductBuilder setDiscount(double discount) {
+        this.discount = discount;
+        return this;
+    }
+
     public Products build() {
         Products product = new Products();
-        product.setId(id);           // if null, Firebase auto-generates it later
+        product.setId(id);
         product.setName(name);
         product.setDesc(desc);
         product.setImg(img);
         product.setQty(qty);
         product.setWeight(weight);
+        product.setPrice(price);       // ✅ Now included
+        product.setDiscount(discount); // ✅ Now included
         return product;
     }
 }

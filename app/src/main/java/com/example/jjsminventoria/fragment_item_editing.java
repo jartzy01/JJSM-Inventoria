@@ -63,17 +63,19 @@ public class fragment_item_editing extends Fragment {
         EditText price = view.findViewById(R.id.PriceInput);
         EditText discount = view.findViewById(R.id.discountInput);
 
+        // 🟢 Pre-fill fields if editing
         if (product != null) {
             itemTitle.setText(product.getName());
             description.setText(product.getDesc());
             id.setText(product.getId() != null ? product.getId() : "");
             stock.setText(String.valueOf(product.getQty()));
-            price.setText("N/A");
-            discount.setText("N/A");
+            price.setText(String.valueOf(product.getPrice()));
+            discount.setText(String.valueOf(product.getDiscount()));
         } else {
             id.setEnabled(false);
         }
 
+        // 🔁 History tab click
         TextView historyTab = view.findViewById(R.id.tabHistory);
         historyTab.setOnClickListener(v -> {
             getParentFragmentManager()
@@ -83,6 +85,7 @@ public class fragment_item_editing extends Fragment {
                     .commit();
         });
 
+        // ✅ Save logic
         Button saveButton = view.findViewById(R.id.saveButton);
         saveButton.setOnClickListener(v -> {
             String name = itemTitle.getText().toString().trim();
@@ -97,6 +100,7 @@ public class fragment_item_editing extends Fragment {
                 double discountVal = Double.parseDouble(discountText);
                 String placeholderImg = "no_image";
 
+                // 🏗️ Build product
                 Products builtProduct = new ProductBuilder()
                         .setName(name.isEmpty() ? "Untitled" : name)
                         .setDesc(descriptionText)
@@ -105,15 +109,25 @@ public class fragment_item_editing extends Fragment {
                         .setImg(placeholderImg)
                         .build();
 
-                String productKey = FirebaseConnection.getInstance().getRootDb()
-                        .child("Categories")
-                        .child(categoryName)
-                        .child("Products")
-                        .push()
-                        .getKey();
+                builtProduct.setPrice(priceVal);
+                builtProduct.setDiscount(discountVal);
+
+                // ✏️ Editing mode uses same ID, else generate a new one
+                String productKey;
+                if (product != null && product.getId() != null) {
+                    productKey = product.getId();
+                } else {
+                    productKey = FirebaseConnection.getInstance().getRootDb()
+                            .child("Categories")
+                            .child(categoryName)
+                            .child("Products")
+                            .push()
+                            .getKey();
+                }
 
                 if (productKey != null) {
                     builtProduct.setId(productKey);
+
                     FirebaseConnection.getInstance().getRootDb()
                             .child("Categories")
                             .child(categoryName)
@@ -122,8 +136,6 @@ public class fragment_item_editing extends Fragment {
                             .setValue(builtProduct)
                             .addOnSuccessListener(task -> {
                                 Toast.makeText(getContext(), "Product saved!", Toast.LENGTH_SHORT).show();
-
-                                // ✅ Navigate back to ItemsFragment with correct category
                                 Fragment itemsFragment = ItemsFragment.newInstance(categoryName);
                                 getParentFragmentManager()
                                         .beginTransaction()
@@ -131,9 +143,9 @@ public class fragment_item_editing extends Fragment {
                                         .addToBackStack(null)
                                         .commit();
                             })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(getContext(), "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            });
+                            .addOnFailureListener(e ->
+                                    Toast.makeText(getContext(), "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                            );
                 }
 
             } catch (NumberFormatException e) {

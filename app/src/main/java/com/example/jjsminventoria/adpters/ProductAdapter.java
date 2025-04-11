@@ -60,6 +60,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             notifyDataSetChanged();
         });
 
+        holder.editIcon.setOnClickListener(v -> {
+            Fragment editFragment = fragment_item_editing.newInstance(product, categoryName);
+            ((FragmentActivity) v.getContext()).getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment_activity_main_menu_bottom_tabs, editFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
         holder.deleteIcon.setOnClickListener(v -> {
             new AlertDialog.Builder(v.getContext())
                     .setTitle("Delete Item")

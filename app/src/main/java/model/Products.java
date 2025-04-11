@@ -7,6 +7,8 @@ public class Products implements Serializable {
     private String desc;
     private String img;
     private String name;
+    private double price;
+    private double discount;
     private int qty;
     private double weight;
 
@@ -25,6 +27,21 @@ public class Products implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 
     public String getDesc() {
