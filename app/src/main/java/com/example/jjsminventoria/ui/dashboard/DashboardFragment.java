@@ -119,7 +119,7 @@ public class DashboardFragment extends Fragment {
             return;
         }
 
-        PieDataSet pieDataSet = new PieDataSet(pieEntries, "Stock Status");
+        PieDataSet pieDataSet = new PieDataSet(pieEntries, "");
 
         List<Integer> color = new ArrayList<>();
         color.add(Color.RED);
@@ -128,6 +128,8 @@ public class DashboardFragment extends Fragment {
 
         pieDataSet.setColors(color);
 
+        pieDataSet.setDrawValues(true);
+        pieChart.setDrawEntryLabels(false);
         pieDataSet.setValueTextColor(Color.BLACK);
         pieDataSet.setValueTextSize(16f);
 
