@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/light_gray"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingHorizontal="7dp"
+    android:paddingTop="7dp">
 
     <LinearLayout
         android:id="@+id/itemsHeader"
@@ -57,7 +58,8 @@
         android:layout_height="40dp"
         android:background="@drawable/headers"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="-1dp">
 
         <!-- Clickable Tab: Back to Categories -->
         <TextView
