@@ -2,36 +2,67 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/white"
     android:orientation="vertical"
-    android:padding="12dp"
-    android:background="@android:color/white">
+    android:padding="16dp">
 
-    <!-- Divider -->
+    <!-- Action Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/historyIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitCenter"
+            android:contentDescription="History Icon"
+            android:src="@drawable/item_green"
+            android:adjustViewBounds="true"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/historyMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You created a category called X"
+                android:textColor="#212121"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/historyUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="John Doe"
+                android:textColor="#444444"
+                android:textSize="13sp"
+                android:textStyle="italic"
+                android:layout_marginTop="2dp" />
+
+            <TextView
+                android:id="@+id/historyTimestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2025-04-08 10:30:00"
+                android:textColor="#757575"
+                android:textSize="13sp"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="12dp"
         android:background="@color/light_gray" />
-
-    <!-- Action Message -->
-    <TextView
-        android:id="@+id/historyMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="You created a category called X"
-        android:textColor="#212121"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <!-- Timestamp -->
-    <TextView
-        android:id="@+id/historyTimestamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2025-04-08 10:30:00"
-        android:textColor="#757575"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp" />
-
-
 </LinearLayout>
