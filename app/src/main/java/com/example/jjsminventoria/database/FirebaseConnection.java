@@ -27,10 +27,7 @@ public class FirebaseConnection {
 
     private static FirebaseConnection instance;
 
-    private final DatabaseReference rootDb;
-    private final DatabaseReference usersDb;
-    private final DatabaseReference categoriesDb;
-    private final DatabaseReference productsDb;
+    private final DatabaseReference rootDb, usersDb, categoriesDb, productsDb, historyDb;
 
     private final StorageReference storageRef;
     private final FirebaseAuth auth;
@@ -41,6 +38,7 @@ public class FirebaseConnection {
         usersDb = rootDb.child("Users");
         productsDb = rootDb.child("Products");
         categoriesDb = rootDb.child("Categories");
+        historyDb = rootDb.child("Users").child("History");
 
         storageRef = FirebaseStorage.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
@@ -188,12 +186,17 @@ public class FirebaseConnection {
     public void logHistory(String actionType, String message) {
         String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : "unknown";
         String timestamp = DateFormat.format("yyyy-MM-dd HH:mm:ss", new Date()).toString();
-        String historyId = usersDb.child(userId).child("History").push().getKey();
 
+        DatabaseReference userRef = FirebaseDatabase.getInstance()
+                .getReference("Company")
+                .child("100")
+                .child("Users")
+                .child(userId);
+
+        String historyId = userRef.child("History").push().getKey();
         if (historyId == null) return;
 
-        // 🔥 Get the user's actual name
-        usersDb.child(userId).child("username").addListenerForSingleValueEvent(new ValueEventListener() {
+        userRef.child("username").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String username = snapshot.getValue(String.class);
@@ -204,9 +207,9 @@ public class FirebaseConnection {
                 historyMap.put("actionType", actionType);
                 historyMap.put("message", message);
                 historyMap.put("timestamp", timestamp);
-                historyMap.put("username", username); // 👈 Add username here
+                historyMap.put("username", username);
 
-                usersDb.child(userId).child("History").child(historyId).setValue(historyMap);
+                userRef.child("History").child(historyId).setValue(historyMap);
             }
 
             @Override

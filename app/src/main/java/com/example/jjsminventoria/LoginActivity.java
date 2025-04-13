@@ -1,6 +1,7 @@
 package com.example.jjsminventoria;
 
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.credentials.Credential;
@@ -10,15 +11,21 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -37,6 +44,17 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -104,6 +122,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         };
 
+        etEmail.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                etEmail.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.showSoftInput(etEmail, InputMethodManager.SHOW_IMPLICIT);
+                }
+            }
+            return false;
+        });
+
         etEmail.setOnFocusChangeListener(hideOnFocus);
         etPassword.setOnFocusChangeListener(hideOnFocus);
 
@@ -130,13 +159,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void disablePaste(EditText et) {
         et.setLongClickable(false);
-        et.setOnTouchListener((v, event) -> {
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-            if (clipboard.hasPrimaryClip()) {
-                clipboard.clearPrimaryClip();
-            }
-            return false;
-        });
+//        et.setOnTouchListener((v, event) -> {
+//            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+//            if (clipboard.hasPrimaryClip()) {
+//                clipboard.clearPrimaryClip();
+//            }
+//            return false;
+//        });
     }
 
     private void login(View v) {
@@ -175,8 +204,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
                         if (user != null) {
-                            saveUserSession(user.getUid());
-                            navigateToMainMenu();
+                            // Check if the user already has complete profile info in the database
+                            DatabaseReference userRef = FirebaseDatabase.getInstance()
+                                    .getReference("Company")
+                                    .child("100")
+                                    .child("Users")
+                                    .child(user.getUid());
+
+                            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (!snapshot.exists() || !snapshot.hasChild("firstName")) {
+                                        // Prompt for additional information if it doesn't exist
+                                        promptCompleteProfile(user);
+                                    } else {
+                                        saveUserSession(user.getUid());
+                                        navigateToMainMenu();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Log.e("Firebase", "Error: " + error.getMessage());
+                                }
+                            });
                         }
                     } else {
                         Snackbar.make(findViewById(android.R.id.content), "Authentication Failed.",
@@ -196,6 +247,83 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         googleSingInClient = GoogleSignIn.getClient(this, options);
         Intent signInIntent = googleSingInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void promptCompleteProfile(FirebaseUser firebaseUser) {
+        // Inflate the custom layout
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_complete_profile, null);
+        final EditText etFirstName = dialogView.findViewById(R.id.etFirstName);
+        final EditText etLastName = dialogView.findViewById(R.id.etLastName);
+        final EditText etPassword = dialogView.findViewById(R.id.etPassword);
+
+        // Build the AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Complete Your Profile")
+                .setView(dialogView)
+                .setPositiveButton("Save", (dialog, which) -> {
+                    String firstName = etFirstName.getText().toString().trim();
+                    String lastName = etLastName.getText().toString().trim();
+                    String plainPassword = etPassword.getText().toString().trim();
+
+                    // Validate inputs if necessary
+                    if (firstName.isEmpty() || lastName.isEmpty() || plainPassword.isEmpty()) {
+                        Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    String hashedPassword = hashPassword(plainPassword);
+
+                    // Save the updated user info to Firebase
+                    saveUserProfile(firebaseUser.getUid(), firebaseUser.getEmail(), firstName, lastName, hashedPassword);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    // Helper method to hash the password
+    private String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1)
+                    hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Method to update the user's profile in the database
+    private void saveUserProfile(String uid, String email, String firstName, String lastName, String hashedPassword) {
+        DatabaseReference userRef = FirebaseDatabase.getInstance()
+                .getReference("Company")
+                .child("100")
+                .child("Users")
+                .child(uid);
+
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("uid", uid);
+        userMap.put("email", email);
+        userMap.put("firstName", firstName);
+        userMap.put("lastName", lastName);
+        userMap.put("username", firstName + " " + lastName);
+        userMap.put("password", hashedPassword);
+        userMap.put("role", "employee");
+
+        userRef.updateChildren(userMap).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Optionally save session and navigate
+                saveUserSession(uid);
+                navigateToMainMenu();
+            } else {
+                Toast.makeText(this, "Error saving profile data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

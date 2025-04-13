@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.play.services.auth)
     implementation(libs.mpandroidchart)
+    implementation(libs.legacy.support.v4)
     testImplementation(libs.junit)
     testImplementation(libs.ext.junit)
     androidTestImplementation(libs.ext.junit)

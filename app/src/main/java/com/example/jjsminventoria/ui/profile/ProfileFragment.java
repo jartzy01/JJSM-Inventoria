@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.jjsminventoria.R;
 import com.example.jjsminventoria.databinding.FragmentProfileBinding;
 import com.example.jjsminventoria.fragment_settings;
+import com.example.jjsminventoria.ui.UserList.UserListFragment;
 /*
 import com.example.jjsminventoria.
 */
@@ -37,6 +38,11 @@ public class ProfileFragment extends Fragment {
         // ✅ Add Click Listeners
         binding.settings.setOnClickListener(v -> {
             replaceFragment(new fragment_settings());
+        });
+
+        //binding.
+        binding.ivUsersList.setOnClickListener(v->{
+            replaceFragment(new UserListFragment());
         });
 
        /* binding.users.setOnClickListener(v -> {

@@ -33,7 +33,7 @@ public class UserDBIntegrationTest {
 
     @Test
     public void testWriteAndReadData() throws InterruptedException {
-        Users testUser = new Users("100","kiwis","John", "Doe", "johndoe@gmail.com");
+        Users testUser = new Users("100","kiwis","John", "Doe", "johndoe@gmail.com", "employee");
         CountDownLatch latch = new CountDownLatch(1);
 
         String userIdKey = "100";
