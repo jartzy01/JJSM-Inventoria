@@ -250,4 +250,33 @@ public class FirebaseConnection {
         void onCategoriesFetched(List<String> categories);
         void onCategoriesFetchedFailed(Exception exception);
     }
+
+
+    private static String cachedCompanyName;
+
+    public interface CompanyNameCallback {
+        void onCompanyNameFetched(String name);
+    }
+
+    public void getCompanyNameOnce(CompanyNameCallback callback) {
+        if (cachedCompanyName != null) {
+            callback.onCompanyNameFetched(cachedCompanyName);
+            return;
+        }
+
+        rootDb.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                cachedCompanyName = snapshot.getValue(String.class);
+                callback.onCompanyNameFetched(cachedCompanyName != null ? cachedCompanyName : "Company");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onCompanyNameFetched("Company");
+            }
+        });
+    }
+
+
 }

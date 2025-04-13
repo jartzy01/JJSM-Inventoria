@@ -91,6 +91,12 @@ public class fragment_history extends Fragment {
             public void afterTextChanged(android.text.Editable s) {}
         });
 
+        TextView companyNameTextView = view.findViewById(R.id.companyNameTextView);
+
+        FirebaseConnection.getInstance().getCompanyNameOnce(name -> {
+            companyNameTextView.setText(name);
+        });
+
         TextView tabCategories = view.findViewById(R.id.tabCategories);
         tabCategories.setOnClickListener(v -> {
             getParentFragmentManager()

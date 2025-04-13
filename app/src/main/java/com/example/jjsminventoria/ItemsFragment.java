@@ -18,6 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jjsminventoria.adpters.ProductAdapter;
 import com.example.jjsminventoria.database.FirebaseConnection;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,6 +114,13 @@ public class ItemsFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+
+        TextView companyNameTextView = view.findViewById(R.id.companyNameTextView);
+
+        FirebaseConnection.getInstance().getCompanyNameOnce(name -> {
+            companyNameTextView.setText(name);
+        });
+
     }
 
     private void loadProducts() {

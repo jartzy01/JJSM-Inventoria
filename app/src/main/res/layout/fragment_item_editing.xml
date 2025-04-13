@@ -31,9 +31,10 @@
             android:paddingStart="8dp">
 
             <TextView
+                android:id="@+id/companyNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Company Name"
+                android:text=""
                 android:textColor="@color/orange"
                 android:textSize="22sp"
                 android:textStyle="bold" />
