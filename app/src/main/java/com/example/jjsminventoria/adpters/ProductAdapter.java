@@ -1,6 +1,5 @@
 package com.example.jjsminventoria.adpters;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +81,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                                 .child(product.getId())
                                 .removeValue()
                                 .addOnSuccessListener(unused -> {
+                                    // ✅ Log the delete action here
+                                    FirebaseConnection.getInstance().logHistory(
+                                            "Delete Item",
+                                            "Deleted item \"" + product.getName() + "\" from category \"" + categoryName + "\""
+                                    );
+
                                     Toast.makeText(v.getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
                                     if (refreshCallback != null) refreshCallback.run();
                                 })
@@ -92,7 +97,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     .show();
         });
     }
-
 
     @Override
     public int getItemCount() {

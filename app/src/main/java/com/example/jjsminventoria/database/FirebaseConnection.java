@@ -192,14 +192,28 @@ public class FirebaseConnection {
 
         if (historyId == null) return;
 
-        Map<String, Object> historyMap = new HashMap<>();
-        historyMap.put("id", historyId);
-        historyMap.put("actionType", actionType);
-        historyMap.put("message", message);
-        historyMap.put("timestamp", timestamp);
+        // 🔥 Get the user's actual name
+        usersDb.child(userId).child("username").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String username = snapshot.getValue(String.class);
+                if (username == null) username = "Unknown";
 
-        usersDb.child(userId).child("History").child(historyId).setValue(historyMap);
+                Map<String, Object> historyMap = new HashMap<>();
+                historyMap.put("id", historyId);
+                historyMap.put("actionType", actionType);
+                historyMap.put("message", message);
+                historyMap.put("timestamp", timestamp);
+                historyMap.put("username", username); // 👈 Add username here
+
+                usersDb.child(userId).child("History").child(historyId).setValue(historyMap);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
+
 
     public void logout() {
         auth.signOut();
