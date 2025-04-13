@@ -101,10 +101,10 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             if (password.length() < 8) {
                 Toast.makeText(this, "❌ Passwords must be at least 8 characters",
                         Toast.LENGTH_SHORT).show();
-            } if (!password.matches(".*[A-Z]].*")) {
+            } if (!password.matches(".*[A-Z].*")) {
                 Toast.makeText(this, "❌ Passwords must have at least 1 uppercase letter",
                         Toast.LENGTH_SHORT).show();
-            } if (!password.matches(".*[a-z].*]")) {
+            } if (!password.matches(".*[a-z].*")) {
                 Toast.makeText(this, "❌ Passwords must have at least 1 lowercase letter",
                         Toast.LENGTH_SHORT).show();
             } if (!password.matches(".*\\d.*")) {
@@ -127,7 +127,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                    userDb.child(userId).setValue(users).addOnCompleteListener(dbTask -> {
                       if (dbTask.isSuccessful()) {
                           Toast.makeText(this, "✅ Account created successfully", Toast.LENGTH_SHORT).show();
-                          goToSuccessActivity();
+                          goToSuccessActivity(userId);
                       } else {
                           Toast.makeText(this, "❌ Failed to store user data.", Toast.LENGTH_SHORT).show();
                       }
@@ -145,6 +145,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                }
            }
         });
+
 
 //        if (passwordConfirm.equals(password)){
 //            if (isValidPassword(password)) {
@@ -189,8 +190,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         return password.matches(regex);
     }
 
-    private void goToSuccessActivity() {
+    private void goToSuccessActivity(String userId) {
         Intent intent = new Intent(CreateAccountActivity.this, Signup_success.class);
+        intent.putExtra("userId", userId);
         startActivity(intent);
         finish();
     }
