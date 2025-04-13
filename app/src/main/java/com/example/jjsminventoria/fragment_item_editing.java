@@ -47,8 +47,7 @@ public class fragment_item_editing extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_item_editing, container, false);
     }
 
@@ -63,7 +62,6 @@ public class fragment_item_editing extends Fragment {
         EditText price = view.findViewById(R.id.PriceInput);
         EditText discount = view.findViewById(R.id.discountInput);
 
-        // Breadcrumb setup 🧭
         TextView mainSection = view.findViewById(R.id.mainSection);
         TextView subSection1 = view.findViewById(R.id.subSection1);
         TextView subSection2 = view.findViewById(R.id.subSection2);
@@ -78,16 +76,15 @@ public class fragment_item_editing extends Fragment {
             itemTitle.setText(product.getName());
             description.setText(product.getDesc());
             id.setText(product.getId() != null ? product.getId() : "");
-            id.setEnabled(false); // disable editing ID
+            id.setEnabled(false);
             stock.setText(String.valueOf(product.getQty()));
             price.setText(String.valueOf(product.getPrice()));
             discount.setText(String.valueOf(product.getDiscount()));
         } else {
-            subSection2.setVisibility(View.GONE); // hide if creating new item
+            subSection2.setVisibility(View.GONE);
             id.setEnabled(false);
         }
 
-        // Tab switch
         TextView historyTab = view.findViewById(R.id.tabHistory);
         historyTab.setOnClickListener(v -> {
             getParentFragmentManager()
@@ -97,7 +94,6 @@ public class fragment_item_editing extends Fragment {
                     .commit();
         });
 
-        // Save Button
         Button saveButton = view.findViewById(R.id.saveButton);
         saveButton.setOnClickListener(v -> {
             String name = itemTitle.getText().toString().trim();
@@ -141,6 +137,11 @@ public class fragment_item_editing extends Fragment {
                             .child(productKey)
                             .setValue(builtProduct)
                             .addOnSuccessListener(task -> {
+                                boolean isEdit = (product != null && product.getId() != null);
+                                String action = isEdit ? "Modify Item" : "Create Item";
+                                String message = (isEdit ? "Modified" : "Created") + " item \"" + builtProduct.getName() + "\" in category \"" + categoryName + "\"";
+                                FirebaseConnection.getInstance().logHistory(action, message);
+
                                 Toast.makeText(getContext(), "Product saved!", Toast.LENGTH_SHORT).show();
                                 navigateBackToItems();
                             })
@@ -154,7 +155,6 @@ public class fragment_item_editing extends Fragment {
             }
         });
 
-        // Delete Button
         Button deleteButton = view.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(v -> {
             if (product != null && product.getId() != null) {
@@ -169,6 +169,10 @@ public class fragment_item_editing extends Fragment {
                                     .child(product.getId())
                                     .removeValue()
                                     .addOnSuccessListener(unused -> {
+                                        FirebaseConnection.getInstance().logHistory(
+                                                "Delete Item",
+                                                "Deleted item \"" + product.getName() + "\" from category \"" + categoryName + "\""
+                                        );
                                         Toast.makeText(getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
                                         navigateBackToItems();
                                     })
@@ -178,7 +182,7 @@ public class fragment_item_editing extends Fragment {
                         .setNegativeButton("No", null)
                         .show();
             } else {
-                navigateBackToItems(); // Discard and go back
+                navigateBackToItems();
             }
         });
     }
