@@ -15,6 +15,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jjsminventoria.Builder.ProductBuilder;
 import com.example.jjsminventoria.database.FirebaseConnection;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import model.Products;
 
@@ -92,6 +95,12 @@ public class fragment_item_editing extends Fragment {
                     .replace(R.id.nav_host_fragment_activity_main_menu_bottom_tabs, new fragment_history())
                     .addToBackStack(null)
                     .commit();
+        });
+
+        TextView companyNameTextView = view.findViewById(R.id.companyNameTextView);
+
+        FirebaseConnection.getInstance().getCompanyNameOnce(name -> {
+            companyNameTextView.setText(name);
         });
 
         Button saveButton = view.findViewById(R.id.saveButton);

@@ -83,7 +83,14 @@ public class fragment_categories extends Fragment {
             }
         });
 
-        // ✅ Load categories from Firebase
+        TextView companyNameTextView = view.findViewById(R.id.companyNameTextView);
+
+
+        FirebaseConnection.getInstance().getCompanyNameOnce(name -> {
+            companyNameTextView.setText(name);
+        });
+
+
         FirebaseConnection.getInstance().getCategoryDb()
                 .addValueEventListener(new ValueEventListener() {
                     @Override
