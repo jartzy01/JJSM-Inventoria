@@ -27,6 +27,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import model.Users;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener {
@@ -123,15 +127,18 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                FirebaseUser firebaseUser = mAuth.getCurrentUser();
                if (firebaseUser != null) {
                    String userId = firebaseUser.getUid();
-                   Users users = new Users(userId, password,firstName, lastName, email,role);
-                   userDb.child(userId).setValue(users).addOnCompleteListener(dbTask -> {
-                      if (dbTask.isSuccessful()) {
-                          Toast.makeText(this, "✅ Account created successfully", Toast.LENGTH_SHORT).show();
-                          goToSuccessActivity(userId);
-                      } else {
-                          Toast.makeText(this, "❌ Failed to store user data.", Toast.LENGTH_SHORT).show();
-                      }
-                   });
+                   String hashedPassword = hashPassword(password);
+                   if (hashedPassword != null) {
+                       Users users = new Users(userId, hashedPassword, firstName, lastName, email, role);
+                       userDb.child(userId).setValue(users).addOnCompleteListener(dbTask -> {
+                           if (dbTask.isSuccessful()) {
+                               Toast.makeText(this, "✅ Account created successfully", Toast.LENGTH_SHORT).show();
+                               goToSuccessActivity(userId);
+                           } else {
+                               Toast.makeText(this, "❌ Failed to store user data.", Toast.LENGTH_SHORT).show();
+                           }
+                       });
+                   }
                } else {
                    Toast.makeText(this,
                            "❌ Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -226,6 +233,21 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 //            }
 //        });
 //    }
+
+    private String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                hexString.append(String.format("%02x", b));
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     private void clearWidget(){
         etCAFirstName.setText(null);
