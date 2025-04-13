@@ -55,8 +55,9 @@ public class fragment_history extends Fragment {
 
         // Load current user's history
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseConnection.getInstance().getHistoryDb()
+        FirebaseConnection.getInstance().getUserDb()
                 .child(uid)
+                .child("History")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

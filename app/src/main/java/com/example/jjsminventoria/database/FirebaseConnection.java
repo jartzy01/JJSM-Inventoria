@@ -30,7 +30,6 @@ public class FirebaseConnection {
     private final DatabaseReference rootDb;
     private final DatabaseReference usersDb;
     private final DatabaseReference categoriesDb;
-    private final DatabaseReference historyDb;
     private final DatabaseReference productsDb;
 
     private final StorageReference storageRef;
@@ -42,7 +41,6 @@ public class FirebaseConnection {
         usersDb = rootDb.child("Users");
         productsDb = rootDb.child("Products");
         categoriesDb = rootDb.child("Categories");
-        historyDb = usersDb.child("History");
 
         storageRef = FirebaseStorage.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
@@ -190,7 +188,7 @@ public class FirebaseConnection {
     public void logHistory(String actionType, String message) {
         String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : "unknown";
         String timestamp = DateFormat.format("yyyy-MM-dd HH:mm:ss", new Date()).toString();
-        String historyId = historyDb.push().getKey();
+        String historyId = usersDb.child(userId).child("History").push().getKey();
 
         if (historyId == null) return;
 
@@ -200,7 +198,7 @@ public class FirebaseConnection {
         historyMap.put("message", message);
         historyMap.put("timestamp", timestamp);
 
-        historyDb.child(userId).child(historyId).setValue(historyMap);
+        usersDb.child(userId).child("History").child(historyId).setValue(historyMap);
     }
 
     public void logout() {
@@ -218,10 +216,6 @@ public class FirebaseConnection {
 
     public DatabaseReference getCategoryDb() {
         return categoriesDb;
-    }
-
-    public DatabaseReference getHistoryDb() {
-        return historyDb;
     }
 
     public StorageReference getStorageRef() {
