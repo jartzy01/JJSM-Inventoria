@@ -61,6 +61,7 @@
                         android:textColor="@color/dark_gray"/>
 
                     <TextView
+                        android:id="@+id/userNameTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -95,6 +96,7 @@
                         android:textColor="@color/dark_gray"/>
 
                     <TextView
+                        android:id="@+id/userEmailTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -128,6 +130,7 @@
                         android:textColor="@color/dark_gray"/>
 
                     <TextView
+                        android:id="@+id/userPasswordTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -162,6 +165,7 @@
                         android:textColor="@color/dark_gray"/>
 
                     <TextView
+                        android:id="@+id/userPositionTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -195,6 +199,7 @@
                         android:textColor="@color/dark_gray"/>
 
                     <TextView
+                        android:id="@+id/userPrivilegesTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
