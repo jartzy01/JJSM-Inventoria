@@ -236,11 +236,13 @@
                 android:orientation="vertical"
                 android:paddingTop="8dp">
 
-                <!-- Item Created -->
-                <CheckBox android:layout_width="wrap_content"
+                <CheckBox
+                    android:id="@+id/cbItemCreated"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Item Created"
                     android:textSize="16sp"/>
+
                 <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="You will get a notification \nwhen John Doe creates an item."
@@ -248,12 +250,16 @@
                     android:textColor="@color/dark_gray"
                     android:paddingBottom="8dp"/>
 
-                <!-- Item Deleted -->
-                <CheckBox android:layout_width="wrap_content"
+
+                <CheckBox
+                    android:id="@+id/cbItemDeleted"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Item Deleted"
                     android:checked="true"
+                    android:text="Item Deleted"
                     android:textSize="16sp"/>
+
+
                 <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="You will get a notification \nwhen John Doe deletes an item."
@@ -261,12 +267,14 @@
                     android:textColor="@color/dark_gray"
                     android:paddingBottom="8dp"/>
 
-                <!-- Item Out of Stock -->
-                <CheckBox android:layout_width="wrap_content"
+                <CheckBox
+                    android:id="@+id/cbOutOfStock"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Item Out Of Stock"
                     android:checked="true"
+                    android:text="Item Out Of Stock"
                     android:textSize="16sp"/>
+
                 <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="You will get a notification \nwhen John Doe marks an item as \nOut Of Stock."
@@ -274,12 +282,15 @@
                     android:textColor="@color/dark_gray"
                     android:paddingBottom="8dp"/>
 
-                <!-- Request Change -->
-                <CheckBox android:layout_width="wrap_content"
+                <CheckBox
+                    android:id="@+id/cbRequestChange"
+                    android:layout_width="wrap_content"
+                    android:checked="true"
                     android:layout_height="wrap_content"
                     android:text="Request Change"
-                    android:checked="true"
                     android:textSize="16sp"/>
+
+
                 <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="You will get a notification \nwhen John Doe requests to \nmake a change."
@@ -288,6 +299,17 @@
                     android:paddingBottom="8dp"/>
             </LinearLayout>
 
+
+            <Button
+                android:id="@+id/btnSaveSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save Preferences"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/orange"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"/>
         </LinearLayout>
     </ScrollView>
 
