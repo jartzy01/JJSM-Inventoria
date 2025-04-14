@@ -16,6 +16,7 @@ import com.example.jjsminventoria.R;
 import com.example.jjsminventoria.databinding.FragmentProfileBinding;
 import com.example.jjsminventoria.fragment_settings;
 import com.example.jjsminventoria.ui.UserList.UserListFragment;
+import com.example.jjsminventoria.ui.settings.SettingsFragment;
 /*
 import com.example.jjsminventoria.
 */
@@ -37,7 +38,7 @@ public class ProfileFragment extends Fragment {
 
         // ✅ Add Click Listeners
         binding.settings.setOnClickListener(v -> {
-            replaceFragment(new fragment_settings());
+            replaceFragment(new SettingsFragment());
         });
 
         //binding.

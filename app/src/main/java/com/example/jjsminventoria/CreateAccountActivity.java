@@ -126,19 +126,25 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
            if (task.isSuccessful()) {
                FirebaseUser firebaseUser = mAuth.getCurrentUser();
                if (firebaseUser != null) {
-                   String userId = firebaseUser.getUid();
-                   String hashedPassword = hashPassword(password);
-                   if (hashedPassword != null) {
-                       Users users = new Users(userId, hashedPassword, firstName, lastName, email, role);
-                       userDb.child(userId).setValue(users).addOnCompleteListener(dbTask -> {
-                           if (dbTask.isSuccessful()) {
-                               Toast.makeText(this, "✅ Account created successfully", Toast.LENGTH_SHORT).show();
-                               goToSuccessActivity(userId);
-                           } else {
-                               Toast.makeText(this, "❌ Failed to store user data.", Toast.LENGTH_SHORT).show();
+                   // Send Email verification
+                   firebaseUser.sendEmailVerification().addOnCompleteListener(verifyTask ->{
+                       if (verifyTask.isSuccessful()) {
+                           String userId = firebaseUser.getUid();
+                           String hashedPassword = hashPassword(password);
+                           if (hashedPassword != null) {
+                               Users users = new Users(userId, hashedPassword, firstName, lastName, email, role);
+                               userDb.child(userId).setValue(users).addOnCompleteListener(dbTask -> {
+                                   if (dbTask.isSuccessful()) {
+                                       Toast.makeText(this, "Verification email sent. Please " +
+                                               "check your inbox.", Toast.LENGTH_SHORT).show();
+                                       goToSuccessActivity(userId);
+                                   } else {
+                                       Toast.makeText(this, "❌ Failed to store user data.", Toast.LENGTH_SHORT).show();
+                                   }
+                               });
                            }
-                       });
-                   }
+                       }
+                   });
                } else {
                    Toast.makeText(this,
                            "❌ Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

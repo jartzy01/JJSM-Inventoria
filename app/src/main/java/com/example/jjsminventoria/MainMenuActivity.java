@@ -19,13 +19,14 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.jjsminventoria.ui.dashboard.DashboardFragment;
 import com.example.jjsminventoria.ui.profile.ProfileFragment;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainMenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String PREFS_NAME = "MyAppPrefs";
     private int currentTabIndex = 0;
 
-    private TextView tvLogout;
+    private TextView tvLogout, tvUsername;
     private LinearLayout dashboardTab, inventoryTab, profileTab, bottomNav;
 
     @Override
@@ -37,6 +38,17 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         setSupportActionBar(toolbar);
 
         // Initialize logout button
+        tvUsername = findViewById(R.id.tvUsername);
+
+        FirebaseUser currentUser = FirebaseConnection.getInstance().getAuth().getCurrentUser();
+        if (currentUser != null) {
+            String displayName = currentUser.getDisplayName();
+            String email = currentUser.getEmail();
+            tvUsername.setText(displayName != null ? displayName : email);
+        } else {
+            tvUsername.setText("John Doe");
+        }
+
         tvLogout = findViewById(R.id.tvLogout);
         tvLogout.setOnClickListener(this);
 

@@ -27,7 +27,7 @@ public class FirebaseConnection {
 
     private static FirebaseConnection instance;
 
-    private final DatabaseReference rootDb, usersDb, categoriesDb, productsDb, historyDb;
+    private final DatabaseReference rootDb, usersDb, categoriesDb, historyDb;
 
     private final StorageReference storageRef;
     private final FirebaseAuth auth;
@@ -36,7 +36,6 @@ public class FirebaseConnection {
     private FirebaseConnection() {
         rootDb = FirebaseDatabase.getInstance().getReference("Company").child("100");
         usersDb = rootDb.child("Users");
-        productsDb = rootDb.child("Products");
         categoriesDb = rootDb.child("Categories");
         historyDb = rootDb.child("Users").child("History");
 
@@ -58,12 +57,20 @@ public class FirebaseConnection {
     }
 
     public void fetchProducts(FetchProductsCallback callBack) {
-        productsDb.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        categoriesDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Products> productsList = new ArrayList<>();
                 for (DataSnapshot snap : snapshot.getChildren()) {
-                    productsList.add(parseProduct(snap));
+                    DataSnapshot productsSnap = snap.child("Products");
+
+                    for (DataSnapshot productSnap : productsSnap.getChildren()) {
+                        Products product = parseProduct(productSnap);
+                        if (product != null) {
+                            productsList.add(product);
+                        }
+                    }
                 }
                 callBack.onProductsFetched(productsList);
             }
@@ -149,7 +156,7 @@ public class FirebaseConnection {
     }
 
     public void addProductsToCategories(Products product, List<String> categories) {
-        String productKey = productsDb.push().getKey();
+        String productKey = rootDb.child("Products").push().getKey();
 
         if (productKey == null) {
             System.err.println("Failed to generate Firebase key for product.");
@@ -158,7 +165,6 @@ public class FirebaseConnection {
 
         try {
             product.setId(productKey);
-            productsDb.child(productKey).setValue(product);
 
             for (String categoryName : categories) {
                 DatabaseReference categoryProductRef = rootDb

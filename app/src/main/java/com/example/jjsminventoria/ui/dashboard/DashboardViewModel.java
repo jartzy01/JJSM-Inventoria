@@ -12,7 +12,7 @@ import model.Products;
 
 public class DashboardViewModel extends ViewModel {
 
-    private final MutableLiveData<Integer> inventoryQtc = new MutableLiveData<>();
+    private final MutableLiveData<Integer> inventoryQty = new MutableLiveData<>();
     private final MutableLiveData<Integer> totalProducts = new MutableLiveData<>();
     private final MutableLiveData<Integer> totalCategories = new MutableLiveData<>();
     private final MutableLiveData<Integer> outOfStockCount = new MutableLiveData<>();
@@ -23,7 +23,7 @@ public class DashboardViewModel extends ViewModel {
     }
 
     public LiveData<Integer> getInventoryQty() {
-        return inventoryQtc;
+        return inventoryQty;
     }
 
     public LiveData<Integer> getTotalProducts() {
@@ -78,12 +78,12 @@ public class DashboardViewModel extends ViewModel {
             totalQty += product.getQty();
             if (product.getQty() == 0) {
                 outStock++;
-            } else if (product.getQty() < 10) {
+            } else if (product.getQty() <= 10) {
                 lowStock++;
             }
         }
 
-        inventoryQtc.setValue(totalQty);
+        inventoryQty.setValue(totalQty);
         totalProducts.setValue(totalP);
         lowStockCount.setValue(lowStock);
         outOfStockCount.setValue(outStock);
