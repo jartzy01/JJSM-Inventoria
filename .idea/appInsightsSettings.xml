@@ -8,8 +8,8 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.example.jjsminventoria" />
-                  <option name="mobileSdkAppId" value="1:971585166326:android:c52d6ab6b67ec56e7ac5d7" />
+                  <option name="appId" value="com.example.jjsminventorias" />
+                  <option name="mobileSdkAppId" value="1:971585166326:android:f9a854a3a31abda87ac5d7" />
                   <option name="projectId" value="inventoria-90e78" />
                   <option name="projectNumber" value="971585166326" />
                 </ConnectionSetting>

@@ -8,20 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:971585166326:android:c52d6ab6b67ec56e7ac5d7",
+        "mobilesdk_app_id": "1:971585166326:android:f9a854a3a31abda87ac5d7",
         "android_client_info": {
-          "package_name": "com.example.jjsminventoria"
+          "package_name": "com.example.jjsminventorias"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "971585166326-m67jkt2mj4jsbmbf9og5ffcbou5a250i.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.jjsminventoria",
-            "certificate_hash": "a81343a35e6ccd534673de27d9a58902a242ba8f"
-          }
-        },
         {
           "client_id": "971585166326-m1pfi6cnhu2o3ops1o8sbqquf28ugia2.apps.googleusercontent.com",
           "client_type": 3

@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:background="@color/light_gray"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingHorizontal="7dp"
+    android:paddingTop="7dp">
+
 
     <LinearLayout
         android:id="@+id/headerContainer"
@@ -29,12 +31,14 @@
             android:paddingStart="8dp">
 
             <TextView
+                android:id="@+id/companyNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Company Name"
+                android:text=""
                 android:textColor="@color/orange"
                 android:textSize="22sp"
                 android:textStyle="bold" />
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -51,13 +55,16 @@
             android:src="@drawable/bell"/>
     </LinearLayout>
 
+
+
     <LinearLayout
         android:id="@+id/tabsContainer"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@drawable/headers"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="-1dp">
 
         <LinearLayout
             android:layout_width="185dp"
@@ -65,12 +72,12 @@
             android:orientation="horizontal"
             android:background="@drawable/headers_items_selected">
 
-            <ImageView
+<!--            <ImageView
                 android:layout_width="25dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/go_back"
                 android:layout_marginTop="3dp"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="10dp"/>-->
 
             <TextView
                 android:id="@+id/tabCategories"
@@ -78,12 +85,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Some Category 3"
+                android:text="Categories"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
+
+
 
 
         <TextView
@@ -98,6 +107,8 @@
             android:textSize="16sp" />
     </LinearLayout>
 
+
+
     <LinearLayout
         android:id="@+id/mainContentContainer"
         android:layout_width="match_parent"
@@ -108,25 +119,12 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- Tabs (Categories & History) -->
-
-        <!-- Search Bar -->
-        <EditText
-            android:id="@+id/searchBar"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/rounded_edittext"
-            android:hint="Search..."
-            android:paddingStart="12dp"
-            android:textSize="14sp" />
-
-        <!-- Category Path -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:layout_marginTop="-20dp"
             android:padding="10dp">
 
             <ImageView
@@ -137,7 +135,7 @@
                 android:src="@drawable/ic_vector" />
 
             <TextView
-                android:id="@+id/mainFilled"
+                android:id="@+id/mainSection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -145,15 +143,20 @@
                 android:textColor="@color/dark_gray"
                 android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/subFielld"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Some Category 3 /"
-                android:textColor="@color/dark_gray"
-                android:textSize="12sp" />
+
         </LinearLayout>
+
+        <SearchView
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Search..."
+            android:inputType="text"
+            android:paddingStart="12dp"
+            android:textSize="14sp" />
+
 
         <!-- Divider -->
         <View
@@ -162,7 +165,6 @@
             android:layout_marginVertical="8dp"
             android:background="@color/light_gray" />
 
-        <!-- Add Category Button -->
         <Button
             android:id="@+id/addCategoryButton"
             android:layout_width="match_parent"
@@ -173,11 +175,7 @@
             android:text="+"
             android:textColor="@color/black"
             android:textSize="30sp" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginVertical="18dp"
-            android:background="@color/light_gray" />
+
 
         <!-- Category List -->
         <androidx.recyclerview.widget.RecyclerView
@@ -188,85 +186,8 @@
             android:layout_weight="1" />
 
 
-        <LinearLayout
-            android:id="@+id/bottomNav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/rounded_background_dashboard"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <!-- Dashboard -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@drawable/dashboard_empty" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dashboard"
-                    android:textColor="@color/dark_gray"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Inventory -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/box_empty" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Inventory"
-                    android:textColor="@color/dark_gray"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Profile -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_person" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Profile"
-                    android:textColor="@color/dark_gray"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
-
 
     </LinearLayout>
 
-    <!-- Bottom Navigation Bar -->
 
 </LinearLayout>

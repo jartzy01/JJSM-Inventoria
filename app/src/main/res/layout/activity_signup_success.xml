@@ -3,77 +3,71 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
+    android:id="@+id/main"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Signup_success">
 
-    <LinearLayout
-        android:id="@+id/success"
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="visible"
-        android:layout_marginTop="125dp">
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/sucess"
+        android:layout_marginTop="150dp"/>
 
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/sucess"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Success!"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/green"/>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Success!"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/green"/>
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Your T-shirt company\n account has been created."
+        android:textSize="14sp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="you can know login and start\n and strart setting up your account details\n and team projects"
+        android:textSize="14sp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/black"/>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Your T-shirt company\n account has been created."
-            android:textSize="14sp"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/black"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="you can know login and start\n and strart setting up your account details\n and team projects"
-            android:textSize="14sp"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/black"/>
+    <Button
+        android:id="@+id/btnSReturn"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@drawable/change_password_bt"
+        android:layout_marginTop="30dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:textAllCaps="false"
+        android:text="Return To Login"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:drawableEnd="@drawable/resource_return"
+        android:drawablePadding="10dp"/>
 
 
-        <Button
-            android:id="@+id/returnButton"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:background="@drawable/change_password_bt"
-            android:layout_marginTop="30dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:textAllCaps="false"
-            android:text="Return To Login"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:drawableEnd="@drawable/resource_return"
-            android:drawablePadding="10dp"/>
-
-    </LinearLayout>
 
 
 

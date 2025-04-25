@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.settings.SettingsFragment">
+
+    <!-- Main Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Settings"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_gravity="center" />
+
+            <!-- User Info Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="12dp"
+                android:layout_marginTop="10dp">
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@color/light_gray" />
+                <!-- Name -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="NAME"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="@color/dark_gray"/>
+
+                    <EditText
+                        android:id="@+id/etSName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:hint="John Doe"
+                        android:inputType="text"
+                        android:textSize="16sp"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@color/light_gray" />
+
+                <!-- Email -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="EMAIL"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="@color/dark_gray"/>
+
+                    <EditText
+                        android:id="@+id/etSEmail"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:hint="johndoe@hotmail.com"
+                        android:inputType="textEmailAddress"
+                        android:textSize="16sp"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@color/light_gray" />
+                <!-- Password -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="PASSWORD"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="@color/dark_gray"/>
+
+                    <EditText
+                        android:id="@+id/etSPassword"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:hint="••••••••"
+                        android:inputType="textPassword"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:layout_marginEnd="20dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@color/light_gray" />
+
+                <!-- Position -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="POSITION"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="@color/dark_gray"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Manager"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:layout_marginEnd="20dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@color/light_gray" />
+                <!-- Privileges -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="PRIVILEGES"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="@color/dark_gray"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Viewer"
+                        android:textSize="16sp"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@color/light_gray" />
+
+
+            </LinearLayout>
+
+            <!-- Email Notifications Section -->
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EMAIL NOTIFICATIONS"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/dark_gray"
+                android:paddingTop="12dp"/>
+
+            <!-- Notification Options -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp">
+
+                <!-- Item Created -->
+                <CheckBox android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Item Created"
+                    android:textSize="16sp"/>
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You will get a notification \nwhen John Doe creates an item."
+                    android:textSize="16sp"
+                    android:textColor="@color/dark_gray"
+                    android:paddingBottom="8dp"/>
+
+                <!-- Item Deleted -->
+                <CheckBox android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Item Deleted"
+                    android:checked="true"
+                    android:textSize="16sp"/>
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You will get a notification \nwhen John Doe deletes an item."
+                    android:textSize="16sp"
+                    android:textColor="@color/dark_gray"
+                    android:paddingBottom="8dp"/>
+
+                <!-- Item Out of Stock -->
+                <CheckBox android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Item Out Of Stock"
+                    android:checked="true"
+                    android:textSize="16sp"/>
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You will get a notification \nwhen John Doe marks an item as \nOut Of Stock."
+                    android:textSize="16sp"
+                    android:textColor="@color/dark_gray"
+                    android:paddingBottom="8dp"/>
+
+                <!-- Request Change -->
+                <CheckBox android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Request Change"
+                    android:checked="true"
+                    android:textSize="16sp"/>
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You will get a notification \nwhen John Doe requests to \nmake a change."
+                    android:textSize="16sp"
+                    android:textColor="@color/dark_gray"
+                    android:paddingBottom="8dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

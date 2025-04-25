@@ -10,7 +10,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.jjsminventoria"
+        applicationId = "com.example.jjsminventorias"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -32,6 +32,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    kotlinOptions{
+        jvmTarget = "17"
+    }
+
     buildFeatures {
         viewBinding = true
         compose = true
@@ -47,6 +51,8 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
+    implementation(libs.firebase.appcheck)
+    implementation(libs.firebase.appcheck.playintegrity)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.espresso.intents)
@@ -63,6 +69,8 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.glide)
     implementation(libs.play.services.auth)
+    implementation(libs.mpandroidchart)
+    implementation(libs.legacy.support.v4)
     testImplementation(libs.junit)
     testImplementation(libs.ext.junit)
     androidTestImplementation(libs.ext.junit)

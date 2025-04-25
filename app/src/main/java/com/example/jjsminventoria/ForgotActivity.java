@@ -2,9 +2,13 @@ package com.example.jjsminventoria;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,20 +21,29 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.jjsminventoria.database.FirebaseConnection;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
+
 import model.Users;
 
 public class ForgotActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnFPReturn, btnFPConfirm, btnFPFindUser;
-    private TextView tvFPNewPassword, tvFPPasswordConf;
-    private EditText etFPUserID, etFPNewPassword, etFPConfirmPass;
+    private Button btnFPChangePassword;
+    private TextView tvFPPasswordLabel, tvFPNext;
+    private ImageView ivFPNext;
+    private ImageButton ibFPReturn;
+    private EditText etFPEmail, etFPPassword, etFPConPassword;
 
     public DatabaseReference userDB;
+    public FirebaseAppCheck firebaseAppCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +59,19 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initialize(){
-        tvFPNewPassword = findViewById(R.id.tvFPNewPassword);
-        tvFPPasswordConf = findViewById(R.id.tvFPPasswordConf);
-        etFPUserID = findViewById(R.id.etFPUserId);
-        etFPNewPassword = findViewById(R.id.etFPNewPassword);
-        etFPConfirmPass = findViewById(R.id.etFPConfirmPass);
-        btnFPReturn = findViewById(R.id.btnFPReturn);
-        btnFPConfirm = findViewById(R.id.btnFPConfirm);
-        btnFPFindUser = findViewById(R.id.btnFPFindUser);
+        tvFPPasswordLabel = findViewById(R.id.tvFPPasswordLabel);
+        tvFPNext = findViewById(R.id.tvFPNext);
+        etFPEmail = findViewById(R.id.etFPEmail);
+        etFPPassword = findViewById(R.id.etFPPassword);
+        etFPConPassword = findViewById(R.id.etFPConPassword);
+        tvFPNext = findViewById(R.id.tvFPNext);
+        ivFPNext = findViewById(R.id.ivFPNext);
+        btnFPChangePassword = findViewById(R.id.btnFPChangePassword);
+        ibFPReturn = findViewById(R.id.ibFPReturn);
 
-        btnFPReturn.setOnClickListener(this);
-        btnFPFindUser.setOnClickListener(this);
-        btnFPConfirm.setOnClickListener(this);
+        ibFPReturn.setOnClickListener(this);
+        ivFPNext.setOnClickListener(this); tvFPNext.setOnClickListener(this);
+        btnFPChangePassword.setOnClickListener(this);
 
         userDB = FirebaseConnection.getInstance().getUserDb();
     }
@@ -66,17 +80,17 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         int id = view.getId();
 
-        if (id == R.id.btnFPReturn) goToLoginActivity(view);
-        if (id == R.id.btnFPFindUser) findUser(view);
-        if (id == R.id.btnFPConfirm) changePassword(view);
+        if (id == R.id.ibFPReturn) goToLoginActivity(view);
+        if (id == R.id.ivFPNext || id == R.id.tvFPNext) findUser(view);
+        if (id == R.id.btnFPChangePassword) changePassword(view);
     }
 
     private void changePassword(View view) {
-        String userIdField = etFPUserID.getText().toString().trim();
-        String newPassword = etFPNewPassword.getText().toString().trim();
-        String confirmPassword = etFPConfirmPass.getText().toString().trim();
+        String email = etFPEmail.getText().toString().trim();
+        String newPassword = etFPPassword.getText().toString().trim();
+        String confirmPassword = etFPConPassword.getText().toString().trim();
 
-        if (userIdField.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
+        if (email.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         } else if (!newPassword.equals(confirmPassword)) {
@@ -87,7 +101,7 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
         int userId;
 
         try {
-            userId = Integer.parseInt(userIdField);
+            userId = Integer.parseInt(email);
         } catch (NumberFormatException ex) {
             Toast.makeText(this, "Error : " + ex.getMessage(), Toast.LENGTH_SHORT).show();
             return;
@@ -109,7 +123,7 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
                     userDB.child(String.valueOf(userId)).setValue(currentUser).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Snackbar.make(view, "The User with ID " + userId + " has successfully " +
-                                    "changed password. Password: " + currentUser.getPassword(),
+                                            "changed password. Password: " + currentUser.getPassword(),
                                     Snackbar.LENGTH_LONG).show();
                             clearWidgets();
                             Intent intent = new Intent(ForgotActivity.this,
@@ -133,37 +147,64 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
 
     private void findUser(View view) {
         try {
-            // Gets UserId
-            String userId = etFPUserID.getText().toString().trim();
+            String email = etFPEmail.getText().toString().trim();
 
-            if (userId.isEmpty()) {
+            if (email.isEmpty()) {
                 Snackbar.make(view, "User Id field must not be empty.", Snackbar.LENGTH_LONG).show();
                 return;
             }
 
-            // Check if userId exist in firebase
-            userDB.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        Snackbar.make(view, "Input ur new Password", Snackbar.LENGTH_LONG).show();
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Snackbar.make(view, "Please enter a valid email address.", Snackbar.LENGTH_LONG).show();
+                return;
+            }
 
-                        // Change visibility of EditText, TextView, Button in order to change
-                        // password
-                        tvFPNewPassword.setVisibility(View.VISIBLE);
-                        tvFPPasswordConf.setVisibility(View.VISIBLE);
-                        etFPConfirmPass.setVisibility(View.VISIBLE);
-                        etFPNewPassword.setVisibility(View.VISIBLE);
-                        btnFPConfirm.setVisibility(View.VISIBLE);
+            FirebaseAuth auth = FirebaseConnection.getInstance().getAuth();
+
+            auth.fetchSignInMethodsForEmail(email).addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    List<String> signInMethods = task.getResult().getSignInMethods();
+
+                    if (signInMethods != null && !signInMethods.isEmpty()) {
+
+                        Snackbar.make(view, "SignIn method: " + signInMethods.get(0), Snackbar.LENGTH_LONG).show();
+                        Log.d("SignInMethods", "Found methods: " + signInMethods);
+
+                        if (signInMethods.contains(EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD)) {
+                            // Email/password account found
+                            Snackbar.make(view, "Input your new Password", Snackbar.LENGTH_LONG).show();
+
+                            // Show password reset UI
+                            tvFPPasswordLabel.setVisibility(View.VISIBLE);
+                            etFPPassword.setVisibility(View.VISIBLE);
+                            etFPConPassword.setVisibility(View.VISIBLE);
+                            btnFPChangePassword.setVisibility(View.VISIBLE);
+
+                            // Send reset email
+                            FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                                    .addOnCompleteListener(emailTask -> {
+                                        if (emailTask.isSuccessful()) {
+                                            Log.d("ResetEmail", "Password reset email sent to " + email);
+                                        } else {
+                                            Log.e("ResetEmail", "Failed to send reset email", emailTask.getException());
+                                            Snackbar.make(view, "Failed to send reset email.", Snackbar.LENGTH_LONG).show();
+                                        }
+                                    });
+
+                        } else if (signInMethods.contains(GoogleAuthProvider.GOOGLE_SIGN_IN_METHOD)) {
+                            Snackbar.make(view, "This email is linked to Google. Please sign in using Google.", Snackbar.LENGTH_LONG).show();
+                        } else {
+                            Snackbar.make(view, "This email is linked to a third-party provider.", Snackbar.LENGTH_LONG).show();
+                        }
                     } else {
-                        Snackbar.make(view, "UserId does not exist", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(view, "Email does not exist", Snackbar.LENGTH_LONG).show();
                     }
-                }
-
-                // Gives a message if there's a database error
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Snackbar.make(view, "Error : " + error.getMessage(), Snackbar.LENGTH_LONG).show();
+                } else {
+                    // Detailed error handling
+                    Exception exception = task.getException();
+                    String errorMessage = (exception != null) ? exception.getMessage() : "Unknown error";
+                    Log.e("FindUserError", errorMessage); // Log the error for debugging
+                    Snackbar.make(view, "Error: " + errorMessage, Snackbar.LENGTH_LONG).show();
                 }
             });
         } catch (Exception e) {
@@ -178,14 +219,13 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void clearWidgets(){
-        etFPUserID.setText(null);
-        etFPNewPassword.setText(null);
-        etFPConfirmPass.setText(null);
-        etFPConfirmPass.setVisibility(View.GONE);
-        etFPNewPassword.setVisibility(View.GONE);
-        tvFPPasswordConf.setVisibility(View.GONE);
-        tvFPNewPassword.setVisibility(View.GONE);
-        btnFPConfirm.setVisibility(View.GONE);
-        etFPUserID.requestFocus();
+        etFPEmail.setText(null);
+        etFPPassword.setText(null);
+        etFPConPassword.setText(null);
+        tvFPPasswordLabel.setText(null);
+        etFPPassword.setVisibility(View.GONE);
+        etFPConPassword.setVisibility(View.GONE);
+        btnFPChangePassword.setVisibility(View.GONE);
+        etFPEmail.requestFocus();
     }
 }

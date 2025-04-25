@@ -1,42 +1,47 @@
 package model;
 
-public class Products {
-    private int id;
-    private String category;
+import java.io.Serializable;
+
+public class Products implements Serializable {
+    private String id;
     private String desc;
     private String img;
     private String name;
+    private double price;
+    private double discount;
     private int qty;
     private double weight;
 
-    public Products(int id, String category, String desc, String img, String name, int qty, double weight) {
-        this.id = id;
-        this.category = category;
+    public Products(String name, String desc, int qty, double weight) {
         this.desc = desc;
-        this.img = img;
         this.name = name;
         this.qty = qty;
         this.weight = weight;
     }
 
-    public Products(){
+    public Products() {}
 
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
-
-    public String getCategory() {
-        return category;
+    public double getPrice() {
+        return price;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 
     public String getDesc() {

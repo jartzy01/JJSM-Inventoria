@@ -33,7 +33,7 @@ public class UserDBIntegrationTest {
 
     @Test
     public void testWriteAndReadData() throws InterruptedException {
-        Users testUser = new Users(100,"kiwis","John", "Doe", "johndoe@gmail.com");
+        Users testUser = new Users("100","kiwis","John", "Doe", "johndoe@gmail.com", "employee");
         CountDownLatch latch = new CountDownLatch(1);
 
         String userIdKey = "100";
@@ -44,7 +44,7 @@ public class UserDBIntegrationTest {
                public void onDataChange(@NonNull DataSnapshot snapshot) {
                    Users retrievedUser = snapshot.getValue(Users.class);
                    assertNotNull(retrievedUser);
-                   assertEquals(100, retrievedUser.getId());
+                   assertEquals("100", retrievedUser.getId());
                    assertEquals("John", retrievedUser.getFirstName());
                    assertEquals("Doe", retrievedUser.getLastName());
 //                   assertEquals("Employee", retrievedUser.getRole());
