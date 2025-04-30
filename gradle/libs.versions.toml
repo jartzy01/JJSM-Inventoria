@@ -1,5 +1,7 @@
 [versions]
 agp = "8.6.1"
+coreTesting = "latest"
+coreTestingVersion = "2.2.0"
 firebaseAppcheck = "18.0.0"
 glide = "4.16.0"
 junit = "4.13.2"
@@ -14,6 +16,10 @@ lifecycleViewmodelKtx = "2.8.7"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.2.0"
 firebaseDatabase = "21.0.0"
+mockitoAndroid = "4.0.0"
+mockitoCore = "latest"
+mockitoCoreVersion = "4.6.1"
+mockitoInline = "4.6.1"
 mpandroidchart = "3.1.0"
 navigationFragment = "2.8.4"
 navigationUi = "2.8.4"
@@ -30,6 +36,8 @@ playServicesAuth = "21.3.0"
 legacySupportV4 = "1.0.0"
 
 [libraries]
+core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
+core-testing-v220 = { module = "androidx.arch.core:core-testing", version.ref = "coreTestingVersion" }
 firebase-appcheck = { module = "com.google.firebase:firebase-appcheck", version.ref = "firebaseAppcheck" }
 firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appcheck-playintegrity", version.ref = "firebaseAppcheck" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
@@ -44,6 +52,11 @@ lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-lived
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+mockito-android = { module = "org.mockito:mockito-android", version.ref = "mockitoAndroid" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-core-v461 = { module = "org.mockito:mockito-core", version.ref = "mockitoCoreVersion" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoCore" }
+mockito-inline-v461 = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
 mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }

@@ -44,10 +44,10 @@ public class UserDBIntegrationTest {
                public void onDataChange(@NonNull DataSnapshot snapshot) {
                    Users retrievedUser = snapshot.getValue(Users.class);
                    assertNotNull(retrievedUser);
-                   assertEquals("100", retrievedUser.getId());
+                   assertEquals("100", retrievedUser.getUserId());
                    assertEquals("John", retrievedUser.getFirstName());
                    assertEquals("Doe", retrievedUser.getLastName());
-//                   assertEquals("Employee", retrievedUser.getRole());
+                   assertEquals("employee", retrievedUser.getRole());
                    latch.countDown();
                }
 
@@ -58,37 +58,6 @@ public class UserDBIntegrationTest {
                }
            });
         }).addOnFailureListener(e -> fail("Database write Failed: " + e.getMessage()));
-
-        assertTrue(latch.await(5, TimeUnit.SECONDS));
-    }
-
-    @Test
-    public void findUserById() throws InterruptedException {
-        int testUserId = 100;
-        CountDownLatch latch = new CountDownLatch(1);
-
-        databaseReference.child(String.valueOf(testUserId)).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    Users retrievedUser = snapshot.getValue(Users.class);
-                    assertNotNull("User should not be null", retrievedUser);
-                    assertEquals("User Id should match", testUserId, retrievedUser.getId());
-                    assertEquals("User First Name should match", "John", retrievedUser.getFirstName());
-                    assertEquals("User Laset name should match", "Doe", retrievedUser.getLastName());
-                    assertEquals("User role should match", "Employee", retrievedUser.getRole());
-                } else {
-                    fail("User with ID " + testUserId + " does not exist");
-                }
-                latch.countDown();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                fail("Database Read failed: " + error.getMessage());
-                latch.countDown();
-            }
-        });
 
         assertTrue(latch.await(5, TimeUnit.SECONDS));
     }

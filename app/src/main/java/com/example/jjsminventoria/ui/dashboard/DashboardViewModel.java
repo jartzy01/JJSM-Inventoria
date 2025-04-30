@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.jjsminventoria.database.FirebaseConnection;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.ktx.Firebase;
 
 import java.util.List;
 
@@ -18,7 +20,10 @@ public class DashboardViewModel extends ViewModel {
     private final MutableLiveData<Integer> outOfStockCount = new MutableLiveData<>();
     private final MutableLiveData<Integer> lowStockCount = new MutableLiveData<>();
 
-    public DashboardViewModel() {
+    private final FirebaseConnection firebaseConnection;
+
+    public DashboardViewModel(FirebaseConnection firebaseConnection) {
+        this.firebaseConnection = firebaseConnection;
         loadProductsFromFirebase();
     }
 
@@ -68,7 +73,7 @@ public class DashboardViewModel extends ViewModel {
         });
     }
 
-    private void setAllProducts(List<Products> products) {
+    public void setAllProducts(List<Products> products) {
         int totalP = products.size();
         int lowStock = 0;
         int outStock = 0;
